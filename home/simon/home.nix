@@ -44,7 +44,7 @@
   programs.git = {
     enable = true;
     difftastic.enable = true;
-    userName = "Hibbidr";
+    userName = "Hibbidt";
     userEmail = "204272189+Hibbidt@users.noreply.github.com";
     aliases = {
       st = "status";
