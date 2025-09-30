@@ -2,6 +2,8 @@
 
 imports = [
 ./fish.nix
+./fzf.nix
+./fastfetch.nix
 ];
 
 programs.zoxide = {
