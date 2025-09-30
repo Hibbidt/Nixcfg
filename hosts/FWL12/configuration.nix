@@ -72,6 +72,7 @@
      wget
      git 
      curl
+     fish
    ];
 
   # Some programs need SUID wrappers, can be configured further or are
@@ -94,6 +95,10 @@
    programs.hyprland = {
    enable = true;
    xwayland.enable = true;
+   };
+
+   programs.fish = {
+   enable = true;
    };
 
   # Open ports in the firewall.
