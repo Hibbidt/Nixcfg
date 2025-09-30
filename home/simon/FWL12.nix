@@ -1,6 +1,6 @@
 { config, ... }: 
 { imports = [ 
-./home.nix 
+./home.nix
 ../features/cli
 ../common
 ]; 
