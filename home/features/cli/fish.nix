@@ -16,6 +16,9 @@ config = mkIf cfg.enable
 programs.fish = {
 enable = true;
 loginShellInit = ''
+set -U fish_greeting
+# set VIRTUAL_ENV_DISABLE_ENV "1"
+set -Ux MANPAGER 'nvim +Man!'
 set -x NIX_PATH nixpkgs=channel:nixos-unstable
 set -x NIX_LOG info
 set -x TERMINAL kitty

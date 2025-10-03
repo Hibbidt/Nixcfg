@@ -3,6 +3,7 @@
 ./home.nix
 ../features/cli
 ../features/desktop
+./dotfiles
 ../common
 ]; 
 
@@ -15,6 +16,8 @@ fastfetch.enable = true;
 
 desktop = {
 wayland.enable = true;
+hyprland.enable = true;
+fonts.enable = true;
 };
 };
 
