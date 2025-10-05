@@ -42,7 +42,7 @@ umount /mnt
 
 # add -fore to compress if you want to make sure compression is tried on files
 # costs more cpu usage but can bring quite a bit diskspace 
-mount -o noatime,space_cache=v2,compress=zstd,ssd,discard=async,subvol=root /dev/mapper/NAME2 /mnt
+mount -o noatime,space_cache=v2,compress=zstd,ssd,discard=async,subvol=@ /dev/mapper/NAME2 /mnt
 mkdir /mnt/{boot,home,nix,persist,swap}
 mkdir -p /mnt/var/log
 mount -o noatime,space_cache=v2,compress=zstd,ssd,discard=async,subvol=@home /dev/mapper/NAME2 /mnt/home
@@ -54,7 +54,7 @@ mount -o noatime,subvol=@swap  /dev/mapper/NAME2 /mnt/@swap
 
 
 btrfs filesystem mkswapfile --size 5g --uuid clear /mnt/swap/swapfile
-swapon /swap/swapfile
+swapon /mnt/swap/swapfile
 
 
 mount /dev/{1 Part} /mnt/boot
@@ -70,7 +70,7 @@ nixos-generate-config --root /mnt
     boot.initrd.postDeviceCommands = lib.mkAfter ''
         mkdir /mnt
         mount -t btrfs /dev/mapper/NAME2 /mnt
-        btrfs subvolume delete /mnt/root
+        btrfs subvolume delete /mnt/@
         btrfs subvolume snapshot /mnt/@snapshot /mnt/root
         '';
 }
