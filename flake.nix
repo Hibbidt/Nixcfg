@@ -15,6 +15,8 @@
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-25.05";
 
+    agenix.url = "github:ryantm/agenix";
+
   dotfiles = {
   url = "git+https://github.com/Hibbidt/dotfiles.git";
   flake = false;
@@ -23,7 +25,8 @@
 
   outputs =
     { self,
-    dotfiles
+    dotfiles,
+    agenix
     , home-manager
     , nixpkgs
     , ...
@@ -46,7 +49,10 @@
       nixosConfigurations = {
         FWL12 = nixpkgs.lib.nixosSystem {
           specialArgs = { inherit inputs outputs; };
-          modules = [ ./hosts/FWL12 ];
+          modules = [
+          ./hosts/FWL12
+          agenix.nixosModules.default
+          ];
         };
       };
       homeConfigurations = {
