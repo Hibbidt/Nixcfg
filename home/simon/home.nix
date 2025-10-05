@@ -24,6 +24,7 @@
   home.packages =with pkgs; [
 	kitty
 	wofi
+    xournalpp
     # # Adds the 'hello' command to your environment. It prints a friendly
     # # "Hello, world!" when run.
     # pkgs.hello

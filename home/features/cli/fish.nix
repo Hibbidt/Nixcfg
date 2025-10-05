@@ -28,7 +28,7 @@ if test (tty) = "/dev/tty1"
 end
 '';
 
-shellAbbrs = {
+shellAliases = {
 
 # Replace ls with eza
 "ls" = "eza -al --color=always --group-directories-first --icons"; # preferred listing

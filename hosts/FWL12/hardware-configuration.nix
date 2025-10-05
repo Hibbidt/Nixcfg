@@ -19,6 +19,8 @@
   boot.supportedFilesystems = ["btrfs"];
   boot.kernelModules = [ "kvm-intel" ];
   boot.extraModulePackages = [ ];
+  boot.resumeDevice = "/dev/disk/by-uuid/71afaa19-49ce-4540-8d2a-a92c4ea1246e";
+  boot.kernelParams = ["resume_offset=533760"];
 
   fileSystems."/" =
     { device = "/dev/disk/by-uuid/71afaa19-49ce-4540-8d2a-a92c4ea1246e";
@@ -56,7 +58,7 @@
   fileSystems."/swap" =
     { device = "/dev/disk/by-uuid/71afaa19-49ce-4540-8d2a-a92c4ea1246e";
       fsType = "btrfs";
-      options = [ "subvol=swap" ];
+      options = [ "subvol=swap" "noatime"];
     };
 
   fileSystems."/boot" =
