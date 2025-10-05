@@ -16,15 +16,42 @@ config = mkIf cfg.enable
 programs.fish = {
 enable = true;
 loginShellInit = ''
+## Variables and settings
+# disables the welcome message
 set -U fish_greeting
 # set VIRTUAL_ENV_DISABLE_ENV "1"
+
+#sets nvim as man reader
 set -Ux MANPAGER 'nvim +Man!'
+
 set -x NIX_PATH nixpkgs=channel:nixos-unstable
 set -x NIX_LOG info
 set -x TERMINAL kitty
 
+#executes hyprland when fish is being started on tty1
 if test (tty) = "/dev/tty1"
 	exec Hyprland &> /dev/null
+end
+
+
+## Functions
+# Functions needed for !! and !$ https://github.com/oh-my-fish/plugin-bang-bang
+function __history_previous_command
+  switch (commandline -t)
+  case "!"
+    commandline -t $history[1]; commandline -f repaint
+  case "*"
+    commandline -i !
+  end
+end
+
+function backup --argument filename
+    cp $filename $filename.bak
+end
+
+# Fish command history
+function history
+    builtin history --show-time='%F %T '
 end
 '';
 

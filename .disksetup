@@ -1,0 +1,98 @@
+sudo -i 
+
+#load keympas if needed
+loadkeys de-latin1
+
+
+nix-shell -p btrfs-progs
+
+#Partitioning
+cfdisk 
+
+{1 Part} Efi Part 1G 
+{2 Part} Rest of System
+
+mkfs.vfat -n BOOT {1 Part}
+
+
+# Encryption
+cryptsetup --cipher aes-xts-plain64 --hash sha512 --use-random --verify-passphrase luksFormat {2 Part}
+cryptsetup open {Part 2} NAME2
+
+mkfs.btrfs -L NixOs /dev/mapper/NAME2 
+
+mount -t btrfs /dev/mapper/NAME2 /mnt
+
+
+# Subvolumes
+
+btrfs subvolume create /mnt/@ # root 
+btrfs subvolume create /mnt/@home
+btrfs subvolume create /mnt/@nix
+btrfs subvolume create /mnt/@log
+btrfs subvolume create /mnt/@persist
+
+btrfs subvolume create /mnt/@swap
+
+btrfs subvolume snapshot -r /mnt/@ /mnt/@snapshot
+
+
+
+umount /mnt
+
+# add -fore to compress if you want to make sure compression is tried on files
+# costs more cpu usage but can bring quite a bit diskspace 
+mount -o noatime,space_cache=v2,compress=zstd,ssd,discard=async,subvol=root /dev/mapper/NAME2 /mnt
+mkdir /mnt/{boot,home,nix,persist,swap}
+mkdir -p /mnt/var/log
+mount -o noatime,space_cache=v2,compress=zstd,ssd,discard=async,subvol=@home /dev/mapper/NAME2 /mnt/home
+mount -o noatime,space_cache=v2,compress=zstd,ssd,discard=async,subvol=@nix /dev/mapper/NAME2 /mnt/nix
+mount -o noatime,space_cache=v2,compress=zstd,ssd,discard=async,subvol=@persist /dev/mapper/NAME2 /mnt/persist
+mount -o noatime,space_cache=v2,compress=zstd,ssd,discard=async,subvol=@log /dev/mapper/NAME2 /mnt/var/log
+mount -o noatime,subvol=@swap  /dev/mapper/NAME2 /mnt/@swap
+
+
+
+btrfs filesystem mkswapfile --size 5g --uuid clear /mnt/swap/swapfile
+swapon /swap/swapfile
+
+
+mount /dev/{1 Part} /mnt/boot
+
+
+nixos-generate-config --root /mnt
+
+# edit hardwar-configuratio.nix
+# Edit file
+{
+# enable btrfs support
+    boot.supportedFilesystems = [ "btrfs" ];
+    boot.initrd.postDeviceCommands = lib.mkAfter ''
+        mkdir /mnt
+        mount -t btrfs /dev/mapper/NAME2 /mnt
+        btrfs subvolume delete /mnt/root
+        btrfs subvolume snapshot /mnt/@snapshot /mnt/root
+        '';
+}
+
+fileSystems."/var/log" =
+{ device = "/dev/disk/by-uuid/X";
+    fsType = "btrfs";
+# enable noatime and zstd to the other subvolumes aswell
+# options = ["subvol=" "noatime" "space_cache=v2" "compress=zstd" "discard=async" "ssd"]
+    options = [ "subvol=@log" "compress=zstd" "noatime" ];
+# to have a correct log order
+    neededForBoot = true;
+};
+# Add noatime to swap if needed
+
+swapDevices = [ { device = "/swap/swapfile"; } ];
+#
+
+
+nixos-install --root /mnt --flake .#Flake-Name
+ 
+# Copy configs
+
+sudo cp -r /etc/nixos ./
+sudo chown -R 1000:1000 ./nixos

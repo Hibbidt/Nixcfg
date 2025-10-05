@@ -1,6 +1,6 @@
 {
   description = ''
-    This config is basically a copy of m3tam3re's Yt series on NixOs
+    This config is basically a copy of Sascha Koenig's Yt series on NixOs
 
     Other good configs:
     https://github.com/Misterio77/nix-starter-configs

@@ -4,7 +4,7 @@
 , ...
 }:
 {
-  users.users.simon = {
+  users.users.corvus = {
     initialHashedPassword = "$y$j9T$My0PSozNkOkIr3hYTzlDa/$3baK/Mk/DQsrxC2sdQ7yC15yQOGkoLf.atW7I1VybE0";
     isNormalUser = true;
     description = "main-user";
@@ -22,8 +22,8 @@
     ];
     packages = [ inputs.home-manager.packages.${pkgs.system}.default ];
   };
-  home-manager.users.simon =
-    import ../../../home/simon/${config.networking.hostName}.nix;
+  home-manager.users.corvus =
+    import ../../../home/corvus/${config.networking.hostName}.nix;
 }
 
 

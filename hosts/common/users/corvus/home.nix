@@ -7,7 +7,7 @@
 {
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
-  home.username = lib.mkDefault "simon";
+  home.username = lib.mkDefault "covus";
   home.homeDirectory = lib.mkDefault "/home/${config.home.username}";
 
   # This value determines the Home Manager release that your configuration is
@@ -68,7 +68,7 @@
   #
   # or
   #
-  #  /etc/profiles/per-user/vm/etc/profile.d/hm-session-vars.sh
+  #  /etc/profiles/per-user/corvus/etc/profile.d/hm-session-vars.sh
   #
   home.sessionVariables = {
     # EDITOR = "emacs";

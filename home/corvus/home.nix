@@ -7,7 +7,7 @@
 {
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
-  home.username = lib.mkDefault "simon";
+  home.username = lib.mkDefault "corvus";
   home.homeDirectory = lib.mkDefault "/home/${config.home.username}";
 
   # This value determines the Home Manager release that your configuration is
@@ -48,14 +48,15 @@
     enable = true;
     difftastic.enable = true;
     userName = "Hibbidt";
-    userEmail = "204272189+Hibbidt@users.noreply.github.com";
+    userEmail = "hibbidt@proton.me";
+
     aliases = {
       st = "status";
       logd = "log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit";
     };
     extraConfig = {
       core.excludesfile = "~/.gitignore_global";
-      init.defaultBranch = "master";
+      init.defaultBranch = "main";
     };
   };
 
@@ -88,7 +89,7 @@
   #
   # or
   #
-  #  /etc/profiles/per-user/vm/etc/profile.d/hm-session-vars.sh
+  #  /etc/profiles/per-user/corvus/etc/profile.d/hm-session-vars.sh
   #
   home.sessionVariables = {
     # EDITOR = "emacs";
