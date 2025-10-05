@@ -18,6 +18,35 @@
   # Pick only one of the below networking options.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
   networking.networkmanager.enable = true;  # Easiest to use and most distros use this by default.
+  networking.networkmanager.ensureProfiles = {
+    environmentFiles = [
+      config.age.secrets.secret1.path
+    ];
+  
+    profiles = {
+      home = {
+        connection = {
+          id = "Starlink";
+          type = "wifi";
+        };
+        ipv4 = {
+          method = "auto";
+        };
+        ipv6 = {
+          addr-gen-mode = "stable-privacy";
+          method = "auto";
+        };
+        wifi = {
+          mode = "infrastructure";
+          ssid = "$SSID";
+        };
+        wifi-security = {
+          key-mgmt = "wpa-psk";
+          psk = "$PSK";
+        };
+      };
+    };
+  };
 
   # Set your time zone.
   time.timeZone = "Europe/Berlin";
