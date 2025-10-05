@@ -48,8 +48,7 @@
     enable = true;
     difftastic.enable = true;
     userName = "Hibbidt";
-    userEmail = "hibbidt@proton.me";
-
+    userEmail = "204272189+Hibbidt@users.noreply.github.com";
     aliases = {
       st = "status";
       logd = "log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit";
