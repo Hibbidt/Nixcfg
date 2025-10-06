@@ -24,9 +24,9 @@
     ];
   
     profiles = {
-      home = {
+      first = {
         connection = {
-          id = "Starlink";
+          id = "first";
           type = "wifi";
         };
         ipv4 = {
@@ -161,4 +161,3 @@
   system.stateVersion = "25.05"; # Did you read the comment?
 
 }
-
