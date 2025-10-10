@@ -67,6 +67,13 @@
   # services.xserver.enable = true;
 
 
+    # btrfs autoscrub
+    services.btrfs.autoScrub = {
+        enable = true;
+        interval = "monthly";
+        fileSystems = [ "/"];
+        };
+
   
 
   # Configure keymap in X11
@@ -80,15 +87,21 @@
   # services.printing.enable = true;
 
   # Enable sound.
-  # services.pulseaudio.enable = true;
-  # OR
-  # services.pipewire = {
-  #   enable = true;
-  #   pulse.enable = true;
+
+  # services.pulseaudio = {
+  #     enable = true;
   # };
 
+  # OR
+   services.pipewire = {
+     enable = true;
+     alsa.enable = true;
+     alsa.support32Bit = true;
+     pulse.enable = true;
+   };
+
   # Enable touchpad support (enabled default in most desktopManager).
-  # services.libinput.enable = true;
+   services.libinput.enable = true;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
 

@@ -56,10 +56,10 @@
         };
       };
       homeConfigurations = {
-        "simon@simon" = home-manager.lib.homeManagerConfiguration {
+        "corvus@FWL12" = home-manager.lib.homeManagerConfiguration {
           pkgs = nixpkgs.legacyPackages."x86_64-linux";
           extraSpecialArgs = { inherit inputs outputs; };
-          modules = [ ./home/simon/FWL12.nix ];
+          modules = [ ./home/corvus/FWL12.nix ];
         };
       };
     };

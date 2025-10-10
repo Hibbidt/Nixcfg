@@ -1,25 +1,16 @@
-{lib,
-config,
-...}:
-with lib; 
-let 
-cfg = config.features.cli.fzf;
-in{
 
-options.features.cli.fzf.enable = mkEnableOption "enable fuzzy finder";
+{config,lib,pkgs,...}:
+with lib; 
+let
+cfg = config.features.cli.fzf;
+in {
+options.features.cli.fzf.enable = mkEnableOption "enable fzf";
 
 config = mkIf cfg.enable {
-programs. fzf = {
-enable = true;
-enableFishIntegration = true;
+home.packages = with pkgs; [fzf];
 
-defaultOptions = ["--preview='bat --color=always -n {}'"
-		"--bind 'ctrl-/:toggle-preview'"
-		];
-		defaultCommand = "fd --type f --exclude .git --follow --hidden";
-		changeDirWidgetCommand = "fd --type d --exclude .git --follow --hidden";
-
+programs.fzf = {
+    enable = true;
 };
 };
 }
-

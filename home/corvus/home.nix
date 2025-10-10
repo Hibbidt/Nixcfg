@@ -19,12 +19,21 @@
   # release notes.
   home.stateVersion = "24.05"; # Please read the comment before changing.
 
+  # Let Home Manager install and manage itself.
+  programs.home-manager.enable = true;
+
+
   # The home.packages option allows you to install Nix packages into your
   # environment.
   home.packages =with pkgs; [
+    blueberry
+    mpv
+    wttrbar
+    firefox
 	kitty
-	wofi
+	rofi
     xournalpp
+    qalculate-gtk
     # # Adds the 'hello' command to your environment. It prints a friendly
     # # "Hello, world!" when run.
     # pkgs.hello
@@ -42,6 +51,11 @@
     #   echo "Hello, ${config.home.username}!"
     # '')
   ];
+
+  services.cliphist = {
+      enable = true;
+      allowImages = true;
+      };
 
 
   programs.git = {
@@ -94,6 +108,4 @@
     # EDITOR = "emacs";
   };
 
-  # Let Home Manager install and manage itself.
-  programs.home-manager.enable = true;
 }

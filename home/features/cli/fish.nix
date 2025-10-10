@@ -33,26 +33,64 @@ if test (tty) = "/dev/tty1"
 	exec Hyprland &> /dev/null
 end
 
+'';
 
-## Functions
-# Functions needed for !! and !$ https://github.com/oh-my-fish/plugin-bang-bang
-function __history_previous_command
-  switch (commandline -t)
-  case "!"
-    commandline -t $history[1]; commandline -f repaint
-  case "*"
-    commandline -i !
+functions = {
+
+  # Support for !! (last command) — from oh-my-fish bang-bang plugin
+  __history_previous_command = ''
+    switch (commandline -t)
+      case "!"
+        commandline -t $history[1]
+        commandline -f repaint
+      case "*"
+        commandline -i "!"
+    end
+  '';
+
+  # Support for !$ (last argument of last command)
+  __history_previous_command_arguments = ''
+    switch (commandline -t)
+      case "!"
+        commandline -t ""
+        commandline -f history-token-search-backward
+      case "*"
+        commandline -i "$"
+    end
+  '';
+
+  # Enhanced history command with timestamps
+  hist = ''
+    builtin history --show-time='%F %T  ' | nl -n ln
+  '';
+
+  # Create a backup: backup filename → filename.bak
+  backup = ''
+    cp $argv[1] $argv[1].bak
+  '';
+
+  # Smarter cp that handles directories better
+  copy = ''
+    set count (count $argv | tr -d \n)
+    if test "$count" = 2; and test -d "$argv[1]"
+      set from (string trim --right --chars=/ -- $argv[1])
+      set to $argv[2]
+      command cp -r $from $to
+    else
+      command cp $argv
+    end
+  '';
+
+};
+
+interactiveShellInit = ''
+  if test "$fish_key_bindings" = "fish_vi_key_bindings"
+    bind -M insert ! __history_previous_command
+    bind -M insert '$' __history_previous_command_arguments
+  else
+    bind ! __history_previous_command
+    bind '$' __history_previous_command_arguments
   end
-end
-
-function backup --argument filename
-    cp $filename $filename.bak
-end
-
-# Fish command history
-function history
-    builtin history --show-time='%F %T '
-end
 '';
 
 shellAliases = {
@@ -90,17 +128,11 @@ shellAliases = {
 # Get the error messages from journalctl
 "jctl" = "journalctl -p 3 -xb";
 
-
-
-
 };
 
 };
 
 };
-
-
-
 
 }
 

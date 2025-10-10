@@ -8,13 +8,17 @@ in
 config = mkIf cfg.enable {
 
 wayland.windowManager.hyprland = {enable = true;
-settings = {xwayland = {force_zero_scalling= true; };
+settings = {
+    xwayland = {
+        force_zero_scaling= true;
+        };
 
 exec-once = [
           "waybar"
           "hyprpaper"
           "hypridle"
-          "wl-paste -p -t text --watch clipman store -P --histpath=\"~/.local/share/clipman-primary.json\""
+          "wl-paste --type  text --watch cliphist store" # -P --histpath=\"~/.local/share/clipman-primary.json\""
+          "wl-paste --type image --watch cliphist store"
         ];
 
         env = [
@@ -42,8 +46,8 @@ exec-once = [
           sensitivity = 0;
         };
 
-misc = {
-    vfr = true;
+    misc = {
+        vfr = true;
     };
 
         general = {
@@ -56,8 +60,10 @@ misc = {
         };
 
         decoration = {
-          "col.shadow" = "rgba(1E202966)";
-          shadow = {enable = false;};
+            shadow = {
+                enabled = false;
+                # "col.shadow" = "rgba(1E202966)"; not working giving errors
+                };
           rounding = 8;
           blur = {
             enabled = false;
@@ -69,7 +75,7 @@ misc = {
         };
 
         animations = {
-          enabled = true;
+          enabled = false;
           bezier = "myBezier, 0.05, 0.9, 0.1, 1.05";
           animation = [
             "windows, 1, 7, myBezier"
@@ -88,35 +94,27 @@ misc = {
 
         master = {};
 
-        gestures = {
-          workspace_swipe = false;
-        };
+        # gestures = { workspace_swipe = true; }; # old deprecated
 
         windowrule = [
-          "float, file_progress"
-          "float, confirm"
-          "float, dialog"
-          "float, download"
-          "float, notification"
-          "float, error"
-          "float, splash"
-          "float, confirmreset"
+          "float, class:file_progress"
+          "float, class:confirm"
+          "float, class:dialog"
+          "float, class:download"
+          "float, class:notification"
+          "float, class:error"
+          "float, class:splash"
+          "float, class:confirmreset"
+          "float, class:pavucontrol-qt"
+          "float, class:pavucontrol"
+
+          "float, title:wlogout"
+
+          "fullscreen, class:wlogout"
+          "fullscreen, title:wlogout"
+          "idleinhibit focus, class:mpv"
           "float, title:Open File"
           "float, title:branchdialog"
-          "float, Lxappearance"
-          "float, Wofi"
-          "float, dunst"
-          "animation none,Wofi"
-          "float,viewnior"
-          "float,feh"
-          "float, pavucontrol-qt"
-          "float, pavucontrol"
-          "float, file-roller"
-          "fullscreen, wlogout"
-          "float, title:wlogout"
-          "fullscreen, title:wlogout"
-          "idleinhibit focus, mpv"
-          "idleinhibit fullscreen, firefox"
           "float, title:^(Media viewer)$"
           "float, title:^(Volume Control)$"
           "float, title:^(Picture-in-Picture)$"
@@ -135,15 +133,17 @@ misc = {
           "$mainMod, M, exit"
           "$mainMod, F, fullscreen"
           "$mainMod, V, togglefloating"
-          "$mainMod, SPACE, exec, wofi --show drun --allow-images"
+          "ALT, SPACE, exec, rofi -show combi -modes combi -combi-modes \"window,drun,run\" -show-icons -theme Arc-Dark"
           "$mainMod SHIFT, S, exec, bemoji"
-          "$mainMod, P, exec, wofi-pass"
+          "$mainMod, P, exec, rofi-pass"
           "$mainMod SHIFT, P, pseudo"
+
           "$mainMod, J, togglesplit"
-          "$mainMod, left, movefocus, l"
-          "$mainMod, right, movefocus, r"
-          "$mainMod, up, movefocus, u"
-          "$mainMod, down, movefocus, d"
+          "$mainMod, h, movefocus, l"
+          "$mainMod, l, movefocus, r"
+          "$mainMod, k, movefocus, u"
+          "$mainMod, j, movefocus, d"
+
           "$mainMod, 1, workspace, 1"
           "$mainMod, 2, workspace, 2"
           "$mainMod, 3, workspace, 3"
@@ -154,6 +154,7 @@ misc = {
           "$mainMod, 8, workspace, 8"
           "$mainMod, 9, workspace, 9"
           "$mainMod, 0, workspace, 10"
+
           "$mainMod SHIFT, 1, movetoworkspace, 1"
           "$mainMod SHIFT, 2, movetoworkspace, 2"
           "$mainMod SHIFT, 3, movetoworkspace, 3"
@@ -173,10 +174,13 @@ misc = {
           "$mainMod, mouse:273, resizewindow"
         ];
 
-
+        windowrulev2 = [
+        "workspace 1, class:(Xournalpp)"
+        "workspace 2, class:(Neovim)"
+        "workspace 3, opacity 1.0, class:(firefos)"
+        ];
 
 };
 };
-
 };
 }
