@@ -121,8 +121,8 @@ tooltip label{
           "pulseaudio#microphone"
           "backlight"
           "bluetooth"
-          "network"
           "cpu"
+          "network"
           "tray"
           "battery"
         ];
@@ -148,7 +148,7 @@ tooltip label{
 
         "custom/lock_screen" = {
           format = "";
-          on-click = "sh -c '(sleep 0.5s; swaylock)' & disown";
+          on-click = "sh -c '(sleep 0.5s; hyprlock)' & disown";
           tooltip = false;
         };
 
@@ -160,8 +160,8 @@ tooltip label{
   on-scroll-down = "hyprctl dispatch workspace e-1";
   format-icons = {
     "1" = "";
-    "2"= "";
-    "3"= "";
+    "2" = "";
+    "3" = "";
     "4" = "";
     "5" = "";
     "6" = "";
@@ -191,14 +191,18 @@ network = {
     on-click = "nm-applet";
   };
 
+
+
+
     bluetooth = {
         on-click = "blueberry";
-	    format = " {status}";
+	    format = "";
         format-disabled = "󰂲";
 	    format-connected = " {num_connections}";
-	    tooltip-format = "{device_alias}";
-	    tooltip-format-connected = " {device_enumerate}";
-	    tooltip-format-enumerate-connected = "{device_alias}";
+        tooltip-format = "({controller_alias})\t{controller_address} {num_connections} connected";
+        tooltip-format-connected = "({controller_alias})\t({controller_address})\n({num_connections} connected)\n{device_enumerate}";
+        tooltip-format-enumerate-connected= "({device_alias})\t{device_address}";
+        tooltip-format-enumerate-connected-battery = "({device_alias})\t({device_address})\t{device_battery_percentage}%";
     };
 
     clock = {

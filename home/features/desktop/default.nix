@@ -4,6 +4,8 @@ imports = [
 ./hyprland.nix
 ./fonts.nix
 ./waybar.nix
+./hyprlock.nix
+./wlogout.nix
 ];
 
 home.packages = with pkgs; [];

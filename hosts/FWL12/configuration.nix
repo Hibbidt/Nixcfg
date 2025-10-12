@@ -39,6 +39,10 @@
   # services.xserver.enable = true;
 
 
+# Added for swaylock to work
+
+security.pam.services.hyprlock = {};
+
     # btrfs autoscrub
     services.btrfs.autoScrub = {
         enable = true;
@@ -72,8 +76,22 @@
      pulse.enable = true;
    };
 
+#Enable bluetooth
+
+hardware.bluetooth = {
+    enable = true;
+    settings = {
+        General = {
+            Experimental = true; # Shows batter charge of connected deivces if supported
+            };
+        };
+        };
+
   # Enable touchpad support (enabled default in most desktopManager).
-   services.libinput.enable = true;
+   services.libinput = {
+       enable = true;
+
+       };
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
 
@@ -84,8 +102,6 @@
    environment.systemPackages = with pkgs; [ # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
      neovim 
      wget
-     wireplumber
-     helvum
      git 
      curl
      fish
