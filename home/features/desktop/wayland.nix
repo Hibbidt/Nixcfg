@@ -9,7 +9,6 @@ config = mkIf cfg.enable {
 home.packages = with pkgs; [
 
 grim
-swaylock
 hyprlock
 qt6.qtwayland
 slurp

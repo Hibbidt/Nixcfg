@@ -31,6 +31,8 @@
 	kitty
 	rofi
     xournalpp
+    #thunar
+    syncthing
     qalculate-gtk
     typst
     # # Adds the 'hello' command to your environment. It prints a friendly

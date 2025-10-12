@@ -127,7 +127,7 @@ exec-once = [
         bind = [
           "$mainMod, t, exec, kitty"
           "$mainMod, o, exec, thunar"
-          "$mainMod, ESC, exec, wlogout -p layer-shell"
+          "$mainMod, escape, exec, wlogout -p layer-shell"
           "$mainMod, Space, togglefloating"
           "$mainMod, q, killactive"
           "$mainMod, M, exit"

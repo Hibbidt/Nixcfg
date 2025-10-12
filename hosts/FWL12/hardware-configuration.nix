@@ -9,8 +9,8 @@
     ];
 
   boot.supportedFilesystems = ["btrfs"];
+  boot.initrd.kernelModules = ["pinctrl_tigerlake"];
   boot.initrd.availableKernelModules = [ "xhci_pci" "nvme" "usb_storage" "sd_mod" ];
-  boot.initrd.kernelModules = [ "pinctrl_tigerlake" ];
   boot.initrd.postDeviceCommands = lib.mkAfter ''
     mkdir /mnt
     mount -t btrfs /dev/mapper/cry /mnt
@@ -18,8 +18,19 @@
     btrfs subvolume snapshot /mnt/@snapshot /mnt/@
   '';
 
-  boot.kernelModules = [ "kvm-intel" ];
+  boot.kernelModules = [ "kvm-intel"];
   boot.extraModulePackages = [ ];
+
+  boot.resumeDevice = "/dev/disk/by-uuid/0f0a5969-bf7c-4655-80d9-a884fe457508";
+  boot.kernelParams = ["resume_offset=533760" "mem_sleep_default=deep"];
+  systemd.sleep.extraConfig = ''
+  [Sleep]
+  HibernateMode=shutdown
+  '';
+# HibernateDelay=30m
+# SuspendState=mem
+
+
 
   fileSystems."/" =
     { device = "/dev/disk/by-uuid/0f0a5969-bf7c-4655-80d9-a884fe457508";

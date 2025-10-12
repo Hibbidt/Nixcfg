@@ -50,7 +50,14 @@ security.pam.services.hyprlock = {};
         fileSystems = [ "/"];
         };
 
-  
+    #Setting Hibernation settings and Power Button settings
+    services.power-profiles-daemon.enable = true;
+    # Suspend first then hibernate when closing the lid
+    services.logind.lidSwitch = "suspend";#-then-hibernate";
+    # Hibernate on power button pressed
+    services.logind.powerKey = "suspend";#hibernate";
+    services.logind.powerKeyLongPress = "poweroff";
+
 
   # Configure keymap in X11
   services.xserver.xkb = {
@@ -60,7 +67,7 @@ security.pam.services.hyprlock = {};
   # services.xserver.xkb.options = "eurosign:e,caps:escape";
 
   # Enable CUPS to print documents.
-  # services.printing.enable = true;
+   services.printing.enable = true;
 
   # Enable sound.
 
