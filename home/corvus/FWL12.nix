@@ -24,6 +24,7 @@ waybar.enable = true;
 fonts.enable = true;
 hyprlock.enable = true;
 wlogout.enable = true;
+keepassxc.enable = true;
 };
 };
 }

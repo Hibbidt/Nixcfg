@@ -6,6 +6,7 @@ imports = [
 ./waybar.nix
 ./hyprlock.nix
 ./wlogout.nix
+./keepassxc.nix
 ];
 
 home.packages = with pkgs; [];

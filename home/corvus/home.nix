@@ -27,11 +27,11 @@
   # environment.
   home.packages =with pkgs; [
     mpv
+    keepassxc
     firefox
 	kitty
 	rofi
     xournalpp
-    #thunar
     syncthing
     qalculate-gtk
     typst

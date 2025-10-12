@@ -131,6 +131,10 @@ hardware.bluetooth = {
    allowSFTP = true;
    };
 
+   programs.thunar = {
+       enable = true;
+       };
+
    programs.hyprland = {
    enable = true;
    xwayland.enable = true;
