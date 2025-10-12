@@ -1,9 +1,10 @@
 {
     age = {
         secrets = {
-            secret1= {
-                file= ../../secrets/secret1.age;
-                owner = "corvus";
+            NM= {
+                file= ../../secrets/NM.age;
+                owner = "root";
+                group = "root";
 
             };
         };

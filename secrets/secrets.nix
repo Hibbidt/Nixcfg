@@ -1,6 +1,6 @@
 let
-    FWL12 = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPE56MwVVRm4r7aT+u6hC8jpdqtVMMYW79Dkx8YkKKcl";
+    FWL12 = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILEb/J3EHaZBUxI+iy4pBtKfUqtBPCZbx2Hiw5wmu0ZE";
 in 
 {
-    "secret1.age".publicKeys = [FWL12];
+    "NM.age".publicKeys = [FWL12];
 }

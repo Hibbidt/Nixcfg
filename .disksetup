@@ -48,7 +48,7 @@ mount -o noatime,space_cache=v2,compress=zstd,ssd,discard=async,subvol=@home /de
 mount -o noatime,space_cache=v2,compress=zstd,ssd,discard=async,subvol=@nix /dev/mapper/{NAME2} /mnt/nix
 mount -o noatime,space_cache=v2,compress=zstd,ssd,discard=async,subvol=@persist /dev/mapper/{NAME2} /mnt/persist
 mount -o noatime,space_cache=v2,compress=zstd,ssd,discard=async,subvol=@log /dev/mapper/{NAME2} /mnt/var/log
-mount -o noatime,subvol=@swap /dev/mapper/{NAME2} /mnt/@swap
+mount -o noatime,subvol=@swap /dev/mapper/{NAME2} /mnt/swap
 
 
 btrfs filesystem mkswapfile --size 5g --uuid clear /mnt/swap/swapfile

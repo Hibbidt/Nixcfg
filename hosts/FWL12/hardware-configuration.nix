@@ -5,60 +5,58 @@
 
 {
   imports =
-    [ (modulesPath + "/profiles/qemu-guest.nix")
+    [ (modulesPath + "/installer/scan/not-detected.nix")
     ];
 
-  boot.initrd.availableKernelModules = [ "ahci" "xhci_pci" "virtio_pci" "sr_mod" "virtio_blk" ];
-  boot.initrd.kernelModules = [ ];
-  boot.initrd.postDeviceCommands = lib.mkAfter ''
-	mkdir /mnt
-	mount -t btrfs /dev/mapper/enc /mnt
-	btrfs subvolume delete /mnt/root
-	btrfs subvolume snapshot /mnt/root-blank /mnt/root
-  	'';
   boot.supportedFilesystems = ["btrfs"];
+  boot.initrd.availableKernelModules = [ "xhci_pci" "nvme" "usb_storage" "sd_mod" ];
+  boot.initrd.kernelModules = [ "pinctrl_tigerlake" ];
+  boot.initrd.postDeviceCommands = lib.mkAfter ''
+    mkdir /mnt
+    mount -t btrfs /dev/mapper/cry /mnt
+    btrfs subvolume delet /mnt/@
+    btrfs subvolume snapshot /mnt/@snapshot /mnt/@
+  '';
+
   boot.kernelModules = [ "kvm-intel" ];
   boot.extraModulePackages = [ ];
-  boot.resumeDevice = "/dev/disk/by-uuid/71afaa19-49ce-4540-8d2a-a92c4ea1246e";
-  boot.kernelParams = ["resume_offset=533760"];
 
   fileSystems."/" =
-    { device = "/dev/disk/by-uuid/71afaa19-49ce-4540-8d2a-a92c4ea1246e";
+    { device = "/dev/disk/by-uuid/0f0a5969-bf7c-4655-80d9-a884fe457508";
       fsType = "btrfs";
-      options = [ "subvol=root" "noatime" "ssd" "space_cache=v2" "discard=async" "compress=zstd"];
+      options = [ "subvol=@" "noatime" "space_cache=v2" "compress=zstd" "discard=async" "ssd"];
     };
 
-  boot.initrd.luks.devices."enc".device = "/dev/disk/by-uuid/7d1aa661-0994-4544-8e5f-b1db039af549";
+  boot.initrd.luks.devices."cry".device = "/dev/disk/by-uuid/f78891f2-2559-4c21-b570-63cfd4e9a046";
 
   fileSystems."/home" =
-    { device = "/dev/disk/by-uuid/71afaa19-49ce-4540-8d2a-a92c4ea1246e";
+    { device = "/dev/disk/by-uuid/0f0a5969-bf7c-4655-80d9-a884fe457508";
       fsType = "btrfs";
-      options = [ "subvol=home" "noatime" "ssd" "space_cache=v2" "discard=async" "compress=zstd"];
+      options = [ "subvol=@home" "noatime" "space_cache=v2" "compress=zstd" "discard=async" "ssd"];
     };
 
   fileSystems."/nix" =
-    { device = "/dev/disk/by-uuid/71afaa19-49ce-4540-8d2a-a92c4ea1246e";
+    { device = "/dev/disk/by-uuid/0f0a5969-bf7c-4655-80d9-a884fe457508";
       fsType = "btrfs";
-      options = [ "subvol=nix" "noatime" "ssd" "space_cache=v2" "discard=async" "compress=zstd"];
+      options = [ "subvol=@nix" "noatime" "space_cache=v2" "compress=zstd" "discard=async" "ssd"];
     };
 
   fileSystems."/persist" =
-    { device = "/dev/disk/by-uuid/71afaa19-49ce-4540-8d2a-a92c4ea1246e";
+    { device = "/dev/disk/by-uuid/0f0a5969-bf7c-4655-80d9-a884fe457508";
       fsType = "btrfs";
-      options = [ "subvol=persist" "noatime" "ssd" "space_cache=v2" "discard=async" "compress=zstd"];
+      options = [ "subvol=@persist" "noatime" "space_cache=v2" "compress=zstd" "discard=async" "ssd"];
     };
 
   fileSystems."/var/log" =
-    { device = "/dev/disk/by-uuid/71afaa19-49ce-4540-8d2a-a92c4ea1246e";
+    { device = "/dev/disk/by-uuid/0f0a5969-bf7c-4655-80d9-a884fe457508";
       fsType = "btrfs";
-      options = [ "subvol=log" "noatime" "ssd" "space_cache=v2" "discard=async" "compress=zstd"];
-	neededForBoot = true;
+      options = [ "subvol=@log" "noatime" "space_cache=v2" "compress=zstd" "discard=async" "ssd"];
     };
 
   fileSystems."/swap" =
-    { device = "/dev/disk/by-uuid/71afaa19-49ce-4540-8d2a-a92c4ea1246e";
+    { device = "/dev/disk/by-uuid/0f0a5969-bf7c-4655-80d9-a884fe457508";
       fsType = "btrfs";
-      options = [ "subvol=swap" "noatime"];
+      options = [ "subvol=@swap" "noatime" ];
     };
 
   fileSystems."/boot" =
@@ -67,14 +65,16 @@
       options = [ "fmask=0022" "dmask=0022" ];
     };
 
-  swapDevices = [ {device = "/swap/swapfile";} ];
+  swapDevices = [ {device = "/swap/swapfile"; }];
 
   # Enables DHCP on each ethernet and wireless interface. In case of scripted networking
   # (the default) this is the recommended approach. When using systemd-networkd it's
   # still possible to use this option, but it's recommended to use it in conjunction
   # with explicit per-interface declarations with `networking.interfaces.<interface>.useDHCP`.
   networking.useDHCP = lib.mkDefault true;
-  # networking.interfaces.enp1s0.useDHCP = lib.mkDefault true;
+  # networking.interfaces.enp0s13f0u1c2.useDHCP = lib.mkDefault true;
+  # networking.interfaces.wlp0s20f3.useDHCP = lib.mkDefault true;
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
+  hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
 }

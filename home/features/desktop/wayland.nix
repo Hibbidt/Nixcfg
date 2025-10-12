@@ -9,10 +9,14 @@ config = mkIf cfg.enable {
 home.packages = with pkgs; [
 
 grim
+swaylock
 hyprlock
 qt6.qtwayland
 slurp
-waypipe
+blueberry
+networkmanagerapplet
+wireplumber
+brightnessctl
 wf-recorder
 wl-mirror
 wl-clipboard

@@ -37,6 +37,7 @@
   ./configuration.nix
   ./services
   ./secrets.nix
+  ./networking.nix
   ];
     extraServices.podman.enable = true;
 }

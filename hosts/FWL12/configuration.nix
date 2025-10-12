@@ -8,45 +8,17 @@
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
+      ./networking.nix
     ];
 
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
+  boot.kernelPackages = pkgs.linuxPackages_latest;
 
   networking.hostName = "FWL12"; # Define your hostname.
   # Pick only one of the below networking options.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
-  networking.networkmanager.enable = true;  # Easiest to use and most distros use this by default.
-  networking.networkmanager.ensureProfiles = {
-    environmentFiles = [
-      config.age.secrets.secret1.path
-    ];
-  
-    profiles = {
-      first = {
-        connection = {
-          id = "first";
-          type = "wifi";
-        };
-        ipv4 = {
-          method = "auto";
-        };
-        ipv6 = {
-          addr-gen-mode = "stable-privacy";
-          method = "auto";
-        };
-        wifi = {
-          mode = "infrastructure";
-          ssid = "$SSID";
-        };
-        wifi-security = {
-          key-mgmt = "wpa-psk";
-          psk = "$PSK";
-        };
-      };
-    };
-  };
 
   # Set your time zone.
   time.timeZone = "Europe/Berlin";
@@ -57,11 +29,11 @@
 
   # Select internationalisation properties.
   # i18n.defaultLocale = "en_US.UTF-8";
-  # console = {
-  #   font = "Lat2-Terminus16";
-  #   keyMap = "us";
+   console = {
+     font = "Lat2-Terminus16";
+     keyMap = "de";
   #   useXkbConfig = true; # use xkb.options in tty.
-  # };
+   };
 
   # Enable the X11 windowing system.
   # services.xserver.enable = true;
@@ -109,9 +81,11 @@
 
   # List packages installed in system profile.
   # You can use https://search.nixos.org/ to find more packages (and options).
-   environment.systemPackages = with pkgs; [
-     neovim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
+   environment.systemPackages = with pkgs; [ # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
+     neovim 
      wget
+     wireplumber
+     helvum
      git 
      curl
      fish

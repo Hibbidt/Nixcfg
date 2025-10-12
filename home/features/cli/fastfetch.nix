@@ -41,6 +41,11 @@ settings = {
       keyColor = "yellow";
   }
   {
+      type = "GPU";
+      key = "Gpu";
+      keyColor = "yellow";
+  }
+  {
       type = "memory";
       key = "Ram";
       keyColor = "yellow";
@@ -50,6 +55,11 @@ settings = {
       key = "Swap";
       keyColor = "yellow";
       }
+  {
+      type = "LocalIp";
+      key = "IP";
+      keyColor = "green";
+  }
   {
       type ="packages";
       key = "Packages";
