@@ -7,8 +7,8 @@
 {
   imports =
     [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
-      ./networking.nix
+        ./hardware-configuration.nix
+        ./networking.nix
     ];
 
   # Use the systemd-boot EFI boot loader.
@@ -38,10 +38,17 @@
   # Enable the X11 windowing system.
   # services.xserver.enable = true;
 
+# Added for Driver and Firmware updates
+services.fwupd.enable = true;
+services.fwupd.extraRemotes = ["lvfs-testing"];
+# May be necessary to make the update succed once
+services.fwupd.uefiCapsuleSettings.DisableCapsuleUpdateOnDisk = true;
 
 # Added for swaylock to work
 
 security.pam.services.hyprlock = {};
+
+
 
     # btrfs autoscrub
     services.btrfs.autoScrub = {
@@ -50,6 +57,10 @@ security.pam.services.hyprlock = {};
         fileSystems = [ "/"];
         };
 
+    # Should add Hibernate
+    powerManagement = {
+        enable = true;
+    };
     #Setting Hibernation settings and Power Button settings
     services.power-profiles-daemon.enable = true;
     # Suspend first then hibernate when closing the lid
@@ -112,6 +123,8 @@ hardware.bluetooth = {
      git 
      curl
      fish
+     iio-sensor-proxy
+     iio-hyprland
    ];
 
   # Some programs need SUID wrappers, can be configured further or are

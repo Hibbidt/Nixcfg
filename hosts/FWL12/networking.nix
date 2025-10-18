@@ -9,13 +9,16 @@
     environmentFiles = [
       config.age.secrets.NM.path
     ];
-  
+
     profiles = {
-      first = {
+
+      home = {
         connection = {
-          id = "first";
+          id = "home";
+          uuid="UUID";
           type = "wifi";
-          autoconnect = "true";
+          interface-name="$INTER";
+          autoconnect = true;
         };
         ipv4 = {
           method = "auto";
@@ -34,33 +37,61 @@
         };
       };
 
-     second = {
-         connection = {
-             id = "second";
-             type = "wifi";
-             autoconnect = "true";
-         };
-         ipv4 = {
-             method = "auto";
-         };
-         ipv6 = {
-             addr-gen-mode = "stable-privacy";
-             methond = "auto";
-             };
-             wifi = {
-                 mode = "infrastructure";
-                 ssid = "$SSID2";
-                 };
-             wifi-security = {
-                 key-mgmt = "wpa-eap";
-                 };
-            "802-1x" = {
-                eap = "peap";
-                identity = "$ID";
-                "ca-cert-password" = "$IDPW";
-                "anonymous-identity" = "$AID";
-                };
-};
+
+      test = {
+        connection = {
+          id = "test";
+          uuid="UUID2";
+          type = "wifi";
+          interface-name="$INTER";
+          autoconnect = true;
+        };
+        ipv4 = {
+          method = "auto";
+        };
+        ipv6 = {
+          addr-gen-mode = "stable-privacy";
+          method = "auto";
+        };
+        wifi = {
+          mode = "infrastructure";
+          ssid = "$SSID2";
+        };
+        wifi-security = {
+          key-mgmt = "wpa-psk";
+          psk = "$PSK2";
+        };
+      };
+
+#      edu = {
+#          connection = {
+#              id = "edu";
+#              uuid="UUIDID";
+#              type = "wifi";
+#              interface-name="$INTER";
+#              autoconnect = true;
+#          };
+#          wifi = {
+#              ssid = "$SSIDID";
+#              mode = "infrastructure";
+#          };
+#          wifi-security = {
+#              key-mgmt = "wpa-eap";
+#
+#              anonymous-identity = "$AID";
+#              eap = "peap";
+#              identity = "$ID";
+#              password = "$IDPW";
+#              phase2 = "auth=MSCHAPV2";
+#          };
+#      ipv4 = {
+#          method = "auto";
+#      };
+#      ipv6 = {
+#          addr-gen-mode = "default";
+#          method = "auto";
+#      };
+#    };
     };
   };
   };

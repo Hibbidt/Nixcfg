@@ -68,6 +68,7 @@ tooltip label{
 #idle_inhibitor,
 #custom-lock_screen,
 #custom-power_btn,
+#custom-power_rofi,
 #pulseaudio,
 
 #backlight {
@@ -112,8 +113,9 @@ tooltip label{
         ];
 
         modules-center = [
-          "idle_inhibitor"
-          "clock"
+            "idle_inhibitor"
+            "clock"
+            "custom/launch_rofi"
         ];
 
         modules-right = [
@@ -122,13 +124,19 @@ tooltip label{
           "backlight"
           "bluetooth"
           "cpu"
+          "memory"
           "network"
           "tray"
           "battery"
         ];
 
-        include = [
-        ];
+        "custom/launch_rofi" = {
+            format = "";
+            max-length = 10;
+            on-click = "sh -c '(sleep 0.5s; pkill rofi || rofi -show combi -modes combi -combi-modes \"window,drun\" -show-icons -theme fullscreen-preview)' & disown";
+            tooltip = false;
+            };
+
 
         idle_inhibitor = {
           format = "{icon}";
@@ -176,6 +184,16 @@ tooltip label{
       "5" = [];
       };
 };
+
+
+
+        memory= {
+        interval= 30;
+        format = "";
+        max-length = 10;
+        tooltip = true;
+        tooltip-format= "Memory - {used:0.1f}GB used ({percentage}%)\nSwap - {swapUsed:0.1f}GB used {swapPercentage}%";
+    };
 
 network = {
     format-icons = ["󰤯" "󰤟" "󰤢" "󰤥" "󰤨"];
@@ -233,7 +251,7 @@ network = {
         cpu = {
           interval = 10;
           format = "";
-          max-length = "10";
+          max-length = 10;
           format-alt-click = "click-right";
           format-alt = " {usage}%";
           on-click = "kitty --start-as=fullscreen --title btop sh -c 'btop'";
@@ -249,8 +267,8 @@ network = {
     default = ["󰁺" "󰁻" "󰁼" "󰁽" "󰁾" "󰁿" "󰂀" "󰂁" "󰂂" "󰁹"];
     };
     format-full = "󰂅";
-    tooltip-format-discharging = "{power:>1.0f}W↓ {capacity}% ({health}%)\n {timeTo}";
-    tooltip-format-charging =  "{power:>1.0f}W↑ {capacity}% ({health}%)\n {timeTo}" ;
+    tooltip-format-discharging = "{power:>1.0f}W↓ {capacity}% {cycles} ({health}%)\n {timeTo}";
+    tooltip-format-charging =  "{power:>1.0f}W↑ {capacity}% {cycles} ({health}%)\n {timeTo}" ;
     interval = 10;
     states = {
     warning = 20;
@@ -262,7 +280,7 @@ network = {
         pulseaudio = {
           format = "{icon}";
           format-muted = "";
-          max-volume= "100";
+          max-volume= 100;
           # exec = " wpctl get-volume @DEFAULT_AUDIO_SINK@ | awk '{if ($3=="MUTED")print "Muted"; else print int($2 * 100) "%"}' "; nedded if module is cutom
           on-click = "wpctl set-mute @DEFAULT_SINK@ toggle";
           on-scroll-up = "wpctl set-volume @DEFAULT_SINK@ 2%+";
@@ -282,6 +300,7 @@ network = {
 
         "pulseaudio#microphone" = {
             format = "{format_source}";
+            max-volume = 100;
             format-source = "";
             format-source-muted = "";
             #exec = "wpctl get-volume @DEFAULT_AUDIO_SOURCE@ | awk '{if ($3=="MUTED") print ""; else print "" int($2 * 100) "%"}' "; not needed only for custom module
@@ -298,16 +317,16 @@ network = {
             interval = 10;
           device = "intel_backlight";
           format = "{icon}";
-          format-alt-click = "click-right";
-          format-alt = "{icon} {percent}%";
-          format-icons = [ "󰃞" "󰃟" "󰃠" ];
+          tooltip = true;
+          tooltip-format = "{icon} {percent}%";
+          format-icons = [ "󰃚"  "󰃛" "󰃜" "󰃞" "󰃟" "󰃠" ];
           on-scroll-up = "brightnessctl set 2%+";
           on-scroll-down = "brightnessctl set 2%-";
         };
 
         tray = {
-          icon-size = "16";
-          spacing = "10";
+          icon-size = 16;
+          spacing = 10;
         };
 
       };

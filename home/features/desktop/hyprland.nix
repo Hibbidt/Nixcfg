@@ -28,7 +28,7 @@ exec-once = [
         ];
 
 	monitor = [
-	"eDP-1, 1920x1200, 0x0,1"
+	"eDP-1, 1920x1200@60, 0x0,1"
 	];
 
         input = {
@@ -105,8 +105,8 @@ exec-once = [
           "float, class:error"
           "float, class:splash"
           "float, class:confirmreset"
-          "float, class:pavucontrol-qt"
-          "float, class:pavucontrol"
+          "float, class:xournalpp"
+          "opacity 1.0 override, class:^(xournalpp)$"
 
           "float, title:wlogout"
 
@@ -126,7 +126,7 @@ exec-once = [
 
         bind = [
           "$mainMod, t, exec, kitty"
-          "$mainMod, o, exec, thunar"
+          "$mainMod, e, exec, thunar"
           "$mainMod, escape, exec, wlogout -p layer-shell"
           "$mainMod, Space, togglefloating"
           "$mainMod, q, killactive"
@@ -174,11 +174,6 @@ exec-once = [
           "$mainMod, mouse:273, resizewindow"
         ];
 
-        windowrulev2 = [
-        "workspace 1, class:(Xournalpp)"
-        "workspace 2, class:(Neovim)"
-        "workspace 3, opacity 1.0, class:(firefos)"
-        ];
 
 };
 };

@@ -18,11 +18,12 @@ in
                     AdvancedSettings = true;
                     ApplicationTheme = "dark";
                     HidePasswords = true;
+                    CompactMode = false;
                     ColorPasswords = true;
 
                     };
                     Security = {
-                HideNotes = true;
+                Security_HideNotes = true;
                     };
                     };
             

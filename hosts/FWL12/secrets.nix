@@ -5,7 +5,6 @@
                 file= ../../secrets/NM.age;
                 owner = "root";
                 group = "root";
-
             };
         };
     };

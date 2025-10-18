@@ -15,6 +15,7 @@ fish.enable = true;
 fzf.enable = true;
 fastfetch.enable = true;
 zoxide.enable = true;
+nix-search-tv.enable = true;
 };
 
 desktop = {

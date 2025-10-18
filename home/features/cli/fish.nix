@@ -126,6 +126,9 @@ shellAliases = {
 # Get the error messages from journalctl
 "jctl" = "journalctl -p 3 -xb";
 
+# nix-search-tv search function
+"ns" =  "nix-search-tv print | fzf --preview 'nix-search-tv preview {}' --scheme history";
+
 };
 
 };

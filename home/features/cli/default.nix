@@ -8,6 +8,8 @@ imports = [
 ./eza.nix
 ./bat.nix
 ./zoxide.nix
+./nix-search-tv.nix
+./btop.nix
 ];
 
 

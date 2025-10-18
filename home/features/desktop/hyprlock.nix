@@ -17,7 +17,7 @@ config = mkIf cfg.enable {
   };
 
   animations = {
-    enabled = true;
+    enabled = false;
     fade_in = {
       duration = 300;
       bezier = "easeOutQuint";
