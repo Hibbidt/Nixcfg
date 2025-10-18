@@ -39,16 +39,16 @@
   # services.xserver.enable = true;
 
 # Added for Driver and Firmware updates
-services.fwupd.enable = true;
-services.fwupd.extraRemotes = ["lvfs-testing"];
+services.fwupd = {
+    enable = true;
+extraRemotes = ["lvfs-testing"];
 # May be necessary to make the update succed once
-services.fwupd.uefiCapsuleSettings.DisableCapsuleUpdateOnDisk = true;
+uefiCapsuleSettings.DisableCapsuleUpdateOnDisk = true;
+};
 
 # Added for swaylock to work
 
 security.pam.services.hyprlock = {};
-
-
 
     # btrfs autoscrub
     services.btrfs.autoScrub = {
