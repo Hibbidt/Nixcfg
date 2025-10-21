@@ -23,10 +23,10 @@
 
   boot.resumeDevice = "/dev/disk/by-uuid/0f0a5969-bf7c-4655-80d9-a884fe457508";
   boot.kernelParams = ["resume_offset=533760" "mem_sleep_default=deep"];
-  systemd.sleep.extraConfig = ''
-  [Sleep]
-  HibernateMode=shutdown
-  '';
+#  systemd.sleep.extraConfig = ''
+#  [Sleep]
+#  HibernateMode=shutdown
+#  '';
 # HibernateDelay=30m
 # SuspendState=mem
 

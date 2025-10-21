@@ -35,6 +35,7 @@
     syncthing
     qalculate-gtk
     typst
+    tor-browser
     # # Adds the 'hello' command to your environment. It prints a friendly
     # # "Hello, world!" when run.
     # pkgs.hello
@@ -106,7 +107,8 @@
   #  /etc/profiles/per-user/corvus/etc/profile.d/hm-session-vars.sh
   #
   home.sessionVariables = {
-    # EDITOR = "emacs";
+     TERMINAL = "kitty";
+     EDITOR = "nvim";
   };
 
 }
