@@ -7,9 +7,13 @@
   # https://nixos.wiki/wiki/Overlays
   modifications = final: prev:
     {
+     # xournalpp = import ./mods/xournalpp.nix {inherit prev;};
+     # neovim = import ./mods/neovim.nix {inherit prev;};
+      #globalprotect = import ./mods/globalprotect.nix {inherit prev;};
       # example = prev.example.overrideAttrs (oldAttrs: rec {
       # ...
       # });
+
     };
 
   stable-packages = final: _prev: {

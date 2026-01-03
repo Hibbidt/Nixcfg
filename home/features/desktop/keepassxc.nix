@@ -15,15 +15,12 @@ in
                 Browser.Enabled = true;
 
                 GUI = {
-                    AdvancedSettings = true;
                     ApplicationTheme = "dark";
-                    HidePasswords = true;
-                    CompactMode = false;
                     ColorPasswords = true;
 
                     };
                     Security = {
-                Security_HideNotes = true;
+                        Security_HideNotes = true;
                     };
                     };
             

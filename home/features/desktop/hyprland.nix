@@ -29,6 +29,7 @@ exec-once = [
 
 	monitor = [
 	"eDP-1, 1920x1200@60, 0x0,1"
+  ", preferred, auto, 1"
 	];
 
         input = {
@@ -70,8 +71,8 @@ exec-once = [
             size = 3;
             passes = 3;
           };
-          active_opacity = 0.95;
-          inactive_opacity = 0.75;
+          active_opacity = 1.0;
+          inactive_opacity = 0.9;
         };
 
         animations = {
@@ -126,16 +127,16 @@ exec-once = [
 
         bind = [
           "$mainMod, t, exec, kitty"
-          "$mainMod, e, exec, thunar"
+          "$mainMod, e, exec, dolphin"
           "$mainMod, escape, exec, wlogout -p layer-shell"
           "$mainMod, Space, togglefloating"
           "$mainMod, q, killactive"
           "$mainMod, M, exit"
           "$mainMod, F, fullscreen"
           "$mainMod, V, togglefloating"
-          "ALT, SPACE, exec, rofi -show combi -modes combi -combi-modes \"window,drun,run\" -show-icons -theme Arc-Dark"
-          "$mainMod SHIFT, S, exec, bemoji"
-          "$mainMod, P, exec, rofi-pass"
+          "ALT, SPACE, exec, rofi -show combi -modes combi -combi-modes \"drun,run,keys,calc\" -show-icons -theme Arc-Dark"
+          #"$mainMod SHIFT, S, exec, bemoji"
+          #"$mainMod, P, exec, rofi -show calc"
           "$mainMod SHIFT, P, pseudo"
 
           "$mainMod, I, togglesplit"

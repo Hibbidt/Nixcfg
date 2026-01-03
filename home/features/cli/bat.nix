@@ -3,14 +3,14 @@ with lib;
 let
 cfg = config.features.cli.bat;
 in {
-options.features.cli.bat.enable = mkEnableOption "enable bat";
+  options.features.cli.bat.enable = mkEnableOption "enable bat";
 
-config = mkIf cfg.enable {
-home.packages = with pkgs; [bat];
+  config = mkIf cfg.enable {
+    home.packages = with pkgs; [bat];
 
-programs.bat = {
-    enable = true;
+    programs.bat = {
+      enable = true;
 
-};
-};
+    };
+  };
 }

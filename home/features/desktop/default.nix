@@ -7,6 +7,12 @@ imports = [
 ./hyprlock.nix
 ./wlogout.nix
 ./keepassxc.nix
+./joplin.nix
+./anki.nix
+./rofi.nix
+./flameshot.nix
+./firefox.nix
+./office.nix
 ];
 
 home.packages = with pkgs; [];
