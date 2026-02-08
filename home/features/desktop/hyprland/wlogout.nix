@@ -1,9 +1,9 @@
 {config,lib,...}: with lib;
 let
-cfg = config.features.desktop.wlogout;
+cfg = config.features.desktop.hyprland.wlogout;
 in
 {
-options.features.desktop.wlogout.enable = mkEnableOption "wlogout config";
+options.features.desktop.hyprland.wlogout.enable = mkEnableOption "wlogout config";
 
 
     config = mkIf cfg.enable {

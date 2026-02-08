@@ -11,7 +11,5 @@ config = mkIf cfg.enable {
 home.packages = with pkgs; [
 nerd-fonts.jetbrains-mono
 ];
-
 };
-
 }

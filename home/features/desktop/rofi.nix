@@ -9,40 +9,28 @@ in
 
   config = mkIf cfg.enable {
 
-    programs.rofi  = {
+    programs.rofi  = with pkgs; {
       enable = true;
-      plugins = with pkgs; [rofi-calc rofi-file-browser];
-      cycle = true;
-#modes = [ "combi" "drun" "window" "ssh" "file-browser-extended" "calc" ];
+      package = rofi.override {
+        plugins = [
+          rofi-calc
+          rofi-file-browser
+        ];
+      };
+
+      terminal = "\${pkgs.kitty}/bin/kitty";
       extraConfig = {
 
-        kb-mode-next = "Control+Tab,Shift+Right";
-
-        file-browser-cmd = "exo-open";
-        file-browser-dir = "/";                  
-        file-browser-depth = 0;                         
-        file-browser-open-multi-key = "kb-accept-alt";
-        file-browser-open-custom-key = "kb-custom-11";
-        file-browser-hide-hidden-symbol = "";
-        file-browser-path-sep = "/";
-        file-browser-up-text = "up";
-        file-browser-up-icon = "go-previous";
-        file-browser-oc-search-path =  ""; 
-        file-browser-exclude = "workspace";               
+        modi = "drun,file-browser-extended,calc,run";
+        kb-primary-paste = "Control+V,Shift+Insert";
+        kb-secondary-paste = "Control+v,Insert";
 
         no-show-match = true;
         no-sort= true;
         no-bold = true;
-
-
-
-
+        show-icons = true;
+        disable-history = false;
       };
-      terminal = "kitty";
-      location = "center";
-
     };
-
   };
-
 }

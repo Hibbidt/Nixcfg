@@ -1,19 +1,22 @@
-{config,lib,...}:
+{ config, lib, ... }:
 
-with lib; let
-cfg = config.features.desktop.hyprland;
+with lib;
+let
+  cfg = config.features.desktop.hyprland.hyprland;
 in
-{options.features.desktop.hyprland.enable = mkEnableOption "hyprland config";
+{
+  options.features.desktop.hyprland.hyprland.enable = mkEnableOption "hyprland config";
 
-config = mkIf cfg.enable {
+  config = mkIf cfg.enable {
 
-wayland.windowManager.hyprland = {enable = true;
-settings = {
-    xwayland = {
-        force_zero_scaling= true;
+    wayland.windowManager.hyprland = {
+      enable = true;
+      settings = {
+        xwayland = {
+          force_zero_scaling = true;
         };
 
-exec-once = [
+        exec-once = [
           "waybar"
           "hyprpaper"
           "hypridle"
@@ -27,29 +30,34 @@ exec-once = [
           "GTK_THEME,Dracula"
         ];
 
-	monitor = [
-	"eDP-1, 1920x1200@60, 0x0,1"
-  ", preferred, auto, 1"
-	];
+        monitor = [
+          "eDP-1, 1920x1200@60, 0x0,1"
+          ", preferred, auto, 1"
+        ];
 
         input = {
           kb_layout = "de";
           kb_variant = "";
           kb_model = "";
           kb_rules = "";
-          kb_options ="lv3:caps_switch_capslock_with_ctrl";
+          kb_options = "lv3:caps_switch_capslock_with_ctrl";
           follow_mouse = 1;
 
           touchpad = {
             natural_scroll = true;
           };
 
+          tablet = {
+            output = "eDP-1";
+          };
+
           sensitivity = 0;
         };
 
-    misc = {
-        vfr = true;
-    };
+        misc = {
+          vfr = true;
+          vrr = 1;
+        };
 
         general = {
           gaps_in = 5;
@@ -61,18 +69,18 @@ exec-once = [
         };
 
         decoration = {
-            shadow = {
-                enabled = false;
-                # "col.shadow" = "rgba(1E202966)"; not working giving errors
-                };
+          shadow = {
+            enabled = false;
+            # "col.shadow" = "rgba(1E202966)"; not working giving errors
+          };
           rounding = 8;
           blur = {
             enabled = false;
             size = 3;
             passes = 3;
           };
-          active_opacity = 1.0;
-          inactive_opacity = 0.9;
+          active_opacity = 0.9;
+          inactive_opacity = 0.85;
         };
 
         animations = {
@@ -93,34 +101,29 @@ exec-once = [
           preserve_split = true;
         };
 
-        master = {};
+        master = { };
 
         # gestures = { workspace_swipe = true; }; # old deprecated
 
         windowrule = [
-          "float, class:file_progress"
-          "float, class:confirm"
-          "float, class:dialog"
-          "float, class:download"
-          "float, class:notification"
-          "float, class:error"
-          "float, class:splash"
-          "float, class:confirmreset"
-          "float, class:xournalpp"
-          "opacity 1.0 override, class:^(xournalpp)$"
+          "match:float file_progress"
+          "match:float confirm"
+          "match:float dialog"
+          "match:float download"
+          "match:float notification"
+          "match:float error"
+          "match:float splash"
+          "match:float confirmreset"
+          "no_blur on, match:initial_class com.github.xournalpp.xournalpp"
 
-          "float, title:wlogout"
-
-          "fullscreen, class:wlogout"
-          "fullscreen, title:wlogout"
-          "idleinhibit focus, class:mpv"
-          "float, title:Open File"
-          "float, title:branchdialog"
-          "float, title:^(Media viewer)$"
-          "float, title:^(Volume Control)$"
-          "float, title:^(Picture-in-Picture)$"
-          "size 800 600, title:^(Volume Control)$"
-          "move 75 44%, title:^(Volume Control)$"
+          "match:class wlogout"
+          "match:title wlogout"
+          "match:class mpv"
+          "match:float Open File"
+          "match:float branchdialog"
+          "match:float ^(Media viewer)$"
+          "match:float ^(Volume Control)$"
+          "match:float ^(Picture-in-Picture)$"
         ];
 
         "$mainMod" = "SUPER";
@@ -133,10 +136,8 @@ exec-once = [
           "$mainMod, q, killactive"
           "$mainMod, M, exit"
           "$mainMod, F, fullscreen"
-          "$mainMod, V, togglefloating"
-          "ALT, SPACE, exec, rofi -show combi -modes combi -combi-modes \"drun,run,keys,calc\" -show-icons -theme Arc-Dark"
-          #"$mainMod SHIFT, S, exec, bemoji"
-          #"$mainMod, P, exec, rofi -show calc"
+          "ALT, SPACE, exec, rofi -show drun -file-browser-depth 0 -theme Arc-Dark -run-command"
+          "$mainMod, V, exec, cliphist list | rofi -dmenu | cliphist decode | wl-copy"
           "$mainMod SHIFT, P, pseudo"
 
           "$mainMod, I, togglesplit"
@@ -175,8 +176,7 @@ exec-once = [
           "$mainMod, mouse:273, resizewindow"
         ];
 
-
-};
-};
-};
+      };
+    };
+  };
 }

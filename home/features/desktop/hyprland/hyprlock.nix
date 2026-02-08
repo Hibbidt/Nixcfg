@@ -1,10 +1,10 @@
 
 {config,lib,...}:
     with lib; let
-    cfg = config.features.desktop.hyprlock;
+    cfg = config.features.desktop.hyprland.hyprlock;
 in
 {
-options.features.desktop.hyprlock.enable = mkEnableOption "hyprlock config";
+options.features.desktop.hyprland.hyprlock.enable = mkEnableOption "hyprlock config";
 
 config = mkIf cfg.enable {
     programs.hyprlock = {

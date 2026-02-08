@@ -1,7 +1,8 @@
-{ config
-  , pkgs
-    , inputs
-    , ...
+{
+  config,
+  pkgs,
+  inputs,
+  ...
 }:
 {
   users.users.corvus = {
@@ -10,18 +11,17 @@
     description = "main-user";
     extraGroups = [
       "wheel"
-        "networkmanager"
-        "libvirtd"
-        "audio"
-        "video"
-        "kvm"
-        "qemu-libvirtd"
+      "networkmanager"
+      "libvirtd"
+      "audio"
+      "video"
+      "kvm"
+      "qemu-libvirtd"
     ];
     openssh.authorizedKeys.keys = [
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIC3o/f2DwiJAxWpabwokaNoDCrO8upYE2WblMHyY8Kq1 simon@simon-garuda-mokka"
     ];
     packages = [ inputs.home-manager.packages.${pkgs.system}.default ];
   };
-  home-manager.users.corvus =
-    import ../../../home/corvus/${config.networking.hostName}.nix;
+  home-manager.users.corvus = import ../../../home/corvus/${config.networking.hostName}.nix;
 }

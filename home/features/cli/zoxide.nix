@@ -1,16 +1,21 @@
-
-{config,lib,pkgs,...}:
-with lib; 
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
+with lib;
 let
-cfg = config.features.cli.zoxide;
-in {
+  cfg = config.features.cli.zoxide;
+in
+{
   options.features.cli.zoxide.enable = mkEnableOption "enable zoxide";
 
   config = mkIf cfg.enable {
-    home.packages = with pkgs; [zoxide];
+    home.packages = with pkgs; [ zoxide ];
     programs.zoxide = {
       enable = true;
-      options = ["--cmd cd"];
+      options = [ "--cmd cd" ];
       enableFishIntegration = true;
     };
   };

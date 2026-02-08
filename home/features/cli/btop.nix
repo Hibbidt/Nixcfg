@@ -1,12 +1,18 @@
-{config,lib,pkgs,...}:
-with lib; 
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
+with lib;
 let
-cfg = config.features.cli.btop;
-in {
+  cfg = config.features.cli.btop;
+in
+{
   options.features.cli.btop.enable = mkEnableOption "enable btop";
 
   config = mkIf cfg.enable {
-    home.packages = with pkgs; [btop];
+    home.packages = with pkgs; [ btop ];
 
     programs.btop = {
       enable = true;
@@ -24,8 +30,8 @@ in {
         base_10_sizes = false;
         show_cpu_freq = true;
         temp_scale = "celsius";
-        show_battery= true;
-        selected_battery= "BAT1";
+        show_battery = true;
+        selected_battery = "BAT1";
         net_auto = true;
       };
     };

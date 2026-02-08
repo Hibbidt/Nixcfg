@@ -1,8 +1,8 @@
 {config,lib,pkgs,...}: with lib;
 let
-cfg = config.features.desktop.waybar;
+cfg = config.features.desktop.hyprland.waybar;
 in {
-  options.features.desktop.waybar.enable = mkEnableOption "Waybar options";
+  options.features.desktop.hyprland.waybar.enable = mkEnableOption "Waybar options";
 
   config = mkIf cfg.enable {
     programs.waybar = {
