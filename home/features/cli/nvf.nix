@@ -5,10 +5,12 @@
   inputs,
   ...
 }:
-with lib; let
+with lib;
+let
   cfg = config.features.cli.nvf;
-in {
-  imports = [inputs.nvf.homeManagerModules.default];
+in
+{
+  imports = [ inputs.nvf.homeManagerModules.default ];
 
   options.features.cli.nvf.enable = mkEnableOption "enable nvf";
 
@@ -119,6 +121,23 @@ in {
             splitbelow = true; # Horizontal splits go below
             splitright = true; # Vertical splits go right
           };
+
+          # Add command for command mode
+          # maps = {
+          #   command = {
+          #
+          #     se = {
+          #       action = "w !sudo tee % > /dev/null";
+          #       desc = "Reopen the current buffer as sudoedit";
+          #     };
+          #
+          #     sw = {
+          #       action = "";
+          #       desc = "Write the current buffer as sudoedit";
+          #     };
+          #
+          #   };
+          # };
 
           keymaps = [
             # Keymaps/Remaps
@@ -266,7 +285,7 @@ in {
               mode = "x";
               key = "<leader>p";
               action = "\"_dP";
-              desc = "Overwrites selected without copying it";
+              desc = "Overwrites selected without copying it (block)";
             }
             {
               mode = [
@@ -275,7 +294,7 @@ in {
               ];
               key = "<leader>z";
               action = "\"_d";
-              desc = "Overwrites marked without copying it";
+              desc = "Overwrites marked without copying it (normal,visual)";
             }
             # next greatest remap ever : asbjornHaland
             {
@@ -322,7 +341,7 @@ in {
             #   '';
             # }
             {
-              event = ["TextYankPost"];
+              event = [ "TextYankPost" ];
               desc = "Highlight yanked text";
               callback = lib.generators.mkLuaInline ''
                 function()
@@ -331,7 +350,7 @@ in {
               '';
             }
             {
-              event = ["BufReadPost"];
+              event = [ "BufReadPost" ];
               desc = "Return to last edit position when opening files";
               callback = lib.generators.mkLuaInline ''
                 function()
@@ -344,7 +363,7 @@ in {
               '';
             }
             {
-              event = ["VimResized"];
+              event = [ "VimResized" ];
               desc = "Auto-resize splits when window is resized";
               callback = lib.generators.mkLuaInline ''
                 function()
@@ -353,7 +372,7 @@ in {
               '';
             }
             {
-              event = ["BufWritePre"];
+              event = [ "BufWritePre" ];
               desc = "Create directories when saving files";
               callback = lib.generators.mkLuaInline ''
                   function()
@@ -412,7 +431,7 @@ in {
             typst = {
               enable = true;
               lsp = {
-                servers = ["tinymist"];
+                servers = [ "tinymist" ];
               };
             };
           };
