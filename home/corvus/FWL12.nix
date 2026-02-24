@@ -1,53 +1,89 @@
-{ config, ... }:
 {
+  config,
+  lib,
+  ...
+}:
+with lib; let
+  hypr = config.features.desktop.hyprland.hyprland;
+in {
   imports = [
-    ./home.nix
-    ./dotfiles
     ../common
+    ./dotfiles
     ../features/cli
     ../features/desktop
     ../features/desktop/hyprland
     ../features/desktop/mango
+    ./home.nix
   ];
 
-  features = {
+  config = mkMerge [
+    (mkIf hypr.enable {
+      wayland.windowManager.hyprland = {
+        settings = {
+          monitor = [
+            "eDP-1, 1920x1200@60, 0x0,1"
+            ", preferred, auto, 1"
+          ];
 
-    cli = {
-      bat.enable = true;
-      starship.enable = true;
-      eza.enable = true;
-      fish.enable = true;
-      fzf.enable = true;
-      nvf.enable = true;
-      fastfetch.enable = true;
-      zoxide.enable = true;
-      nix-search-tv.enable = true;
-      nh.enable = true;
-    };
+          input = {
+            touchpad = {
+              natural_scroll = true;
+            };
 
-    desktop = {
+            tablet = {
+              output = "eDP-1";
+            };
+          };
 
-      fonts.enable = true;
-      keepassxc.enable = true;
-      joplin.enable = true;
-      anki.enable = true;
-      office.enable = true;
-      flameshot.enable = true;
-      firefox.enable = true;
-      rofi.enable = true;
-
-      mango = {
-        mango.enable = true;
-        wayland.enable = true;
+          misc = {
+            vfr = true;
+            vrr = 1;
+          };
+        };
       };
+    })
 
-      hyprland = {
-        wayland.enable = true;
-        hyprland.enable = true;
-        waybar.enable = true;
-        hyprlock.enable = true;
-        wlogout.enable = true;
+    {
+      features = {
+        cli = {
+          bat.enable = true;
+          eza.enable = true;
+          fastfetch.enable = true;
+          fish.enable = true;
+          fzf.enable = true;
+          ghostty.enable = true;
+          mpv.enable = true;
+          nh.enable = true;
+          nix-search-tv.enable = true;
+          nvf.enable = true;
+          starship.enable = true;
+          zoxide.enable = true;
+        };
+
+        desktop = {
+          anki.enable = true;
+          firefox.enable = true;
+          flameshot.enable = true;
+          fonts.enable = true;
+          joplin.enable = true;
+          keepassxc.enable = true;
+          office.enable = true;
+          rofi.enable = true;
+
+          mango = {
+            mango.enable = true;
+            wayland.enable = true;
+          };
+
+          hyprland = {
+            hyprland.enable = true;
+            hyprlock.enable = true;
+            waybar.enable = true;
+            wayland.enable = true;
+            wlogout.enable = true;
+          };
+        };
       };
-    };
-  };
+    }
+  ];
 }

@@ -35,53 +35,64 @@
 
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
 
+    disko = {
+      url = "github:nix-community/disko";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     dotfiles = {
       url = "git+https://github.com/Hibbidt/dotfiles.git";
       flake = false;
     };
   };
 
-  outputs =
-    {
-      self,
-      nixpkgs, # home-manager, agenix, mango, dotfiles, nvf, nixos-hardware, stylix,
-      ...
-    }@inputs:
-    let
-      inherit (self) outputs;
-      systems = [
-        "aarch64-linux"
-        "i686-linux"
-        "x86_64-linux"
-        "aarch64-darwin"
-        "x86_64-darwin"
-      ];
-      forAllSystems = nixpkgs.lib.genAttrs systems;
-    in
-    {
-      packages = forAllSystems (system: import ./pkgs nixpkgs.legacyPackages.${system});
-      overlays = import ./overlays { inherit inputs; };
-      nixosConfigurations = {
-        FWL12 = nixpkgs.lib.nixosSystem {
-          specialArgs = { inherit inputs outputs; };
-          modules = [
-            ./hosts/FWL12
-            inputs.agenix.nixosModules.default
-            inputs.nixos-hardware.nixosModules.framework-12-13th-gen-intel
-            inputs.stylix.nixosModules.stylix
-          ];
-        };
+  outputs = {
+    self,
+    nixpkgs, # home-manager, agenix, mango, dotfiles, nvf, nixos-hardware, stylix,
+    ...
+  } @ inputs: let
+    inherit (self) outputs;
+    systems = [
+      "aarch64-linux"
+      "i686-linux"
+      "x86_64-linux"
+      "aarch64-darwin"
+      "x86_64-darwin"
+    ];
+    forAllSystems = nixpkgs.lib.genAttrs systems;
+  in {
+    packages = forAllSystems (system: import ./pkgs nixpkgs.legacyPackages.${system});
+    overlays = import ./overlays {inherit inputs;};
+    nixosConfigurations = {
+      FWL12 = nixpkgs.lib.nixosSystem {
+        specialArgs = {inherit inputs outputs;};
+        modules = [
+          ./hosts/FWL12
+          inputs.agenix.nixosModules.default
+          inputs.nixos-hardware.nixosModules.framework-12-13th-gen-intel
+          inputs.stylix.nixosModules.stylix
+        ];
       };
 
-      homeConfigurations = {
-        "corvus@FWL12" = inputs.home-manager.lib.homeManagerConfiguration {
-          pkgs = nixpkgs.legacyPackages."x86_64-linux";
-          extraSpecialArgs = { inherit inputs outputs; };
-          modules = [
-            ./home/corvus/FWL12.nix
-          ];
-          inputs.home-manager.backupFileExtension = "backup";
-        };
+      AQUILA = nixpkgs.lib.nixosSystem {
+        specialArgs = {inherit inputs outputs;};
+        modules = [
+          ./hosts/AQUILA
+          inputs.agenix.nixosModules.default
+          inputs.disko.nixosModules.disko
+          inputs.stylix.nixosModules.stylix
+        ];
       };
     };
+
+    homeConfigurations = {
+      "corvus@FWL12" = inputs.home-manager.lib.homeManagerConfiguration {
+        pkgs = nixpkgs.legacyPackages."x86_64-linux";
+        extraSpecialArgs = {inherit inputs outputs;};
+        modules = [
+          ./home/corvus/FWL12.nix
+        ];
+      };
+    };
+  };
 }

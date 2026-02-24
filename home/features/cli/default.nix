@@ -1,26 +1,28 @@
-{ pkgs, ... }:
-{
-
+{pkgs, ...}: {
   imports = [
-    ./fish.nix
-    ./nvf.nix
-    ./fastfetch.nix
-    ./fzf.nix
-    ./eza.nix
     ./bat.nix
-    ./zoxide.nix
-    ./starship.nix
-    ./nix-search-tv.nix
-    ./nh.nix
     ./btop.nix
+    ./eza.nix
+    ./fastfetch.nix
+    ./fish.nix
+    ./fzf.nix
+    ./ghostty.nix
+    ./mpv.nix
+    ./nh.nix
+    ./nix-search-tv.nix
+    ./nvf.nix
+    ./starship.nix
+    ./zoxide.nix
   ];
 
   home.packages = with pkgs; [
-    coreutils
-    fd
     btop
+    coreutils
+    curl
+    fd
     procs
     ripgrep
     tealdeer
+    wget
   ];
 }

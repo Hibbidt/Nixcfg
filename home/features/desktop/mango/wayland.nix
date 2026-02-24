@@ -4,17 +4,13 @@
   pkgs,
   ...
 }:
-with lib;
-let
+with lib; let
   cfg = config.features.desktop.mango.wayland;
-in
-{
+in {
   options.features.desktop.mango.wayland.enable = mkEnableOption "wayland extra tools and config";
 
   config = mkIf cfg.enable {
-
     home.packages = with pkgs; [
-
       qt6.qtwayland
       blueberry
       networkmanagerapplet
@@ -26,7 +22,6 @@ in
       wl-clipboard
       wtype
       ydotool
-
     ];
   };
 }

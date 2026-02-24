@@ -4,15 +4,13 @@
   pkgs,
   ...
 }:
-with lib;
-let
+with lib; let
   cfg = config.features.cli.nh;
-in
-{
+in {
   options.features.cli.nh.enable = mkEnableOption "enable nh";
 
   config = mkIf cfg.enable {
-    home.packages = with pkgs; [ nh ];
+    home.packages = with pkgs; [nh];
 
     programs.nh = {
       enable = true;
@@ -22,7 +20,6 @@ in
         dates = "weekly";
         extraArgs = "--keep-since 5d --keep 7";
       };
-
     };
   };
 }

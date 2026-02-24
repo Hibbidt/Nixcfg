@@ -4,15 +4,13 @@
   pkgs,
   ...
 }:
-with lib;
-let
+with lib; let
   cfg = config.features.cli.eza;
-in
-{
+in {
   options.features.cli.eza.enable = mkEnableOption "enable eza";
 
   config = mkIf cfg.enable {
-    home.packages = with pkgs; [ eza ];
+    home.packages = with pkgs; [eza];
 
     programs.eza = {
       enable = true;

@@ -1,14 +1,14 @@
-{ config, lib, ... }:
-
-with lib;
-let
-  cfg = config.features.desktop.hyprland.hyprland;
-in
 {
+  config,
+  lib,
+  ...
+}:
+with lib; let
+  cfg = config.features.desktop.hyprland.hyprland;
+in {
   options.features.desktop.hyprland.hyprland.enable = mkEnableOption "hyprland config";
 
   config = mkIf cfg.enable {
-
     wayland.windowManager.hyprland = {
       enable = true;
       settings = {
@@ -30,11 +30,6 @@ in
           "GTK_THEME,Dracula"
         ];
 
-        monitor = [
-          "eDP-1, 1920x1200@60, 0x0,1"
-          ", preferred, auto, 1"
-        ];
-
         input = {
           kb_layout = "de";
           kb_variant = "";
@@ -43,20 +38,7 @@ in
           kb_options = "lv3:caps_switch_capslock_with_ctrl";
           follow_mouse = 1;
 
-          touchpad = {
-            natural_scroll = true;
-          };
-
-          tablet = {
-            output = "eDP-1";
-          };
-
           sensitivity = 0;
-        };
-
-        misc = {
-          vfr = true;
-          vrr = 1;
         };
 
         general = {
@@ -101,7 +83,7 @@ in
           preserve_split = true;
         };
 
-        master = { };
+        master = {};
 
         # gestures = { workspace_swipe = true; }; # old deprecated
 
@@ -127,10 +109,20 @@ in
         ];
 
         "$mainMod" = "SUPER";
+        "$terminal" = "ghostty";
+        "$filemanager" = "dolphin";
+
+        bindel = [
+          ",XF86AudioRaiseVolume, exec, wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+"
+          ",XF86AudioLowerVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"
+          ",XF86AudioMute, exec, wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
+          ",XF86MonBrightnessUp, exec, brightnessctl s 10%+"
+          ",XF86MonBrightnessDown, exec, brightnessctl s 10%-"
+        ];
 
         bind = [
-          "$mainMod, t, exec, kitty"
-          "$mainMod, e, exec, dolphin"
+          "$mainMod, t, exec, $terminal"
+          "$mainMod, e, exec, $filemanager"
           "$mainMod, escape, exec, wlogout -p layer-shell"
           "$mainMod, Space, togglefloating"
           "$mainMod, q, killactive"
@@ -175,7 +167,6 @@ in
           "$mainMod, mouse:272, movewindow"
           "$mainMod, mouse:273, resizewindow"
         ];
-
       };
     };
   };

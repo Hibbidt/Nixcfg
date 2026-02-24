@@ -3,8 +3,7 @@
   config,
   pkgs,
   ...
-}:
-{
+}: {
   # Should add Hibernate
   powerManagement = {
     enable = true;
@@ -56,7 +55,6 @@
 
         TLP_DEFAULT_MODE = "BAT";
         TLP_PERSISTENT_DEFAULT = 1;
-
       };
     };
   };

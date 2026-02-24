@@ -1,1 +1,1 @@
-{ imports = [ ./corvus.nix ]; }
+{imports = [./corvus.nix];}

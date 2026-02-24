@@ -4,15 +4,13 @@
   pkgs,
   ...
 }:
-with lib;
-let
+with lib; let
   cfg = config.features.desktop.keepassxc;
-in
-{
+in {
   options.features.desktop.keepassxc.enable = mkEnableOption "keepassxc config";
 
   config = mkIf cfg.enable {
-    home.packages = with pkgs; [ keepassxc ];
+    home.packages = with pkgs; [keepassxc];
 
     programs.keepassxc = {
       enable = true;
@@ -23,7 +21,6 @@ in
         GUI = {
           ApplicationTheme = "dark";
           ColorPasswords = true;
-
         };
         Security = {
           Security_HideNotes = true;

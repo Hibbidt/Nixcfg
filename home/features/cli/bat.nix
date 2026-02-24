@@ -4,19 +4,19 @@
   pkgs,
   ...
 }:
-with lib;
-let
+with lib; let
   cfg = config.features.cli.bat;
-in
-{
+in {
   options.features.cli.bat.enable = mkEnableOption "enable bat";
 
   config = mkIf cfg.enable {
-    home.packages = with pkgs; [ bat ];
+    home.packages = with pkgs; [bat];
 
     programs.bat = {
       enable = true;
-
+      config = {
+        # style = ''number,change,header'';
+      };
     };
   };
 }

@@ -1,2 +1,6 @@
-{imports = [./podman.nix];
-    }
+{
+  imports = [
+    ./podman.nix
+    ./virtualisation.nix
+  ];
+}

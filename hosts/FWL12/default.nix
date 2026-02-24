@@ -31,15 +31,20 @@
 # Please also change your hostname accordingly:
 #:w
 # networking.hostName = "nixos"; # Define your hostname.
-  {
-    imports = [
-      ../common
-        ./configuration.nix
-        ./services
-        ./secrets.nix
-        ./networking.nix
-        ./battery.nix
-        /*./vpn.nix*/
-    ];
-    extraServices.podman.enable = true;
-  }
+{
+  imports = [
+    ./battery.nix
+    ./configuration.nix
+    ./hardware.nix
+    ./networking.nix
+    ./programs.nix
+    ./secrets.nix
+    ./services
+    ../common
+  ];
+
+  extraServices = {
+    podman.enable = false;
+    virtualisation.enable = false;
+  };
+}

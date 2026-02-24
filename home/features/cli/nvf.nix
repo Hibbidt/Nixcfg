@@ -5,12 +5,10 @@
   inputs,
   ...
 }:
-with lib;
-let
+with lib; let
   cfg = config.features.cli.nvf;
-in
-{
-  imports = [ inputs.nvf.homeManagerModules.default ];
+in {
+  imports = [inputs.nvf.homeManagerModules.default];
 
   options.features.cli.nvf.enable = mkEnableOption "enable nvf";
 
@@ -23,7 +21,6 @@ in
 
       settings = {
         vim = {
-
           extraPlugins = {
             dap-view = {
               package = pkgs.vimPlugins.nvim-dap-view;
@@ -52,8 +49,10 @@ in
 
           globals.mapleader = " ";
 
-          options = {
+          # UndoTree Source path
+          undoFile.path = "~/.vim/undodir/";
 
+          options = {
             # Basic settings
             number = true; # Line numbers
             relativenumber = true; # Relative line numbers
@@ -97,6 +96,10 @@ in
 
             # File handling
             updatetime = 300; # Faster completion
+            backup = false;
+            writebackup = false;
+            swapfile = false;
+            undofile = true;
             timeoutlen = 500; # Key timeout duration
             ttimeoutlen = 0; # Key code timeout
             autoread = true; # Auto reload files changed outside vim
@@ -115,7 +118,6 @@ in
             # Split behavior
             splitbelow = true; # Horizontal splits go below
             splitright = true; # Vertical splits go right
-
           };
 
           keymaps = [
@@ -202,6 +204,12 @@ in
               key = "<leader>bp";
               action = ":bprev<CR>";
               desc = "Previous buffer";
+            }
+            {
+              mode = "n";
+              key = "<leader>bd";
+              action = ":bd<CR>";
+              desc = "Close buffer";
             }
             # Splitting & Resizing
             {
@@ -314,7 +322,7 @@ in
             #   '';
             # }
             {
-              event = [ "TextYankPost" ];
+              event = ["TextYankPost"];
               desc = "Highlight yanked text";
               callback = lib.generators.mkLuaInline ''
                 function()
@@ -323,7 +331,7 @@ in
               '';
             }
             {
-              event = [ "BufReadPost" ];
+              event = ["BufReadPost"];
               desc = "Return to last edit position when opening files";
               callback = lib.generators.mkLuaInline ''
                 function()
@@ -336,7 +344,7 @@ in
               '';
             }
             {
-              event = [ "VimResized" ];
+              event = ["VimResized"];
               desc = "Auto-resize splits when window is resized";
               callback = lib.generators.mkLuaInline ''
                 function()
@@ -345,7 +353,7 @@ in
               '';
             }
             {
-              event = [ "BufWritePre" ];
+              event = ["BufWritePre"];
               desc = "Create directories when saving files";
               callback = lib.generators.mkLuaInline ''
                   function()
@@ -404,7 +412,7 @@ in
             typst = {
               enable = true;
               lsp = {
-                servers = [ "tinymist" ];
+                servers = ["tinymist"];
               };
             };
           };

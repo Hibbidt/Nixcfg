@@ -4,11 +4,9 @@
   pkgs,
   ...
 }:
-with lib;
-let
+with lib; let
   cfg = config.features.cli.nix-search-tv;
-in
-{
+in {
   options.features.cli.nix-search-tv.enable = mkEnableOption "enable nix-search-tv";
   config = mkIf cfg.enable {
     home.packages = [
@@ -16,21 +14,21 @@ in
       (
         pkgs.writeShellScriptBin "ns" (builtins.readFile (pkgs.nix-search-tv.src + "/nixpkgs.sh"))
         // {
-          nativeBuildInputs = [ pkgs.makeWrapper ];
+          nativeBuildInputs = [pkgs.makeWrapper];
           postInstall = ''
             wrapProgram "$out/bin/ns" \
               --prefix PATH : ${
-                lib.makeBinPath [
-                  pkgs.bash
-                  pkgs.fzf
-                  pkgs.nix-search-tv
-                  pkgs.coreutils
-                  pkgs.gnused
-                  pkgs.gawk
-                  pkgs.xdg-utils
-                  pkgs.nix
-                ]
-              }
+              lib.makeBinPath [
+                pkgs.bash
+                pkgs.fzf
+                pkgs.nix-search-tv
+                pkgs.coreutils
+                pkgs.gnused
+                pkgs.gawk
+                pkgs.xdg-utils
+                pkgs.nix
+              ]
+            }
           '';
         }
       )
@@ -38,7 +36,7 @@ in
     programs.nix-search-tv = {
       enable = true;
       enableTelevisionIntegration = true;
-      settings = { };
+      settings = {};
     };
   };
 }

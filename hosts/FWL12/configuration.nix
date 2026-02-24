@@ -1,22 +1,15 @@
 # Edit this configuration file to define what should be installed on
 # your system. Help is available in the configuration.nix(5) man page, on
 # https://search.nixos.org/options and in the NixOS manual (`nixos-help`).
-
 {
   config,
   lib,
   pkgs,
   ...
-}:
-
-{
+}: {
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
-    ./networking.nix
-    ./battery.nix
-    ./maintenace.nix
-    # ./vpn.nix
   ];
 
   # Use the systemd-boot EFI boot loader.
@@ -35,110 +28,14 @@
   # networking.proxy.default = "http://user:password@proxy:port/";
   # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
 
-  # Select internationalisation properties.
-  # i18n.defaultLocale = "en_US.UTF-8";
-  console = {
-    font = "Lat2-Terminus16";
-    keyMap = "de";
-    #   useXkbConfig = true; # use xkb.options in tty.
-  };
-
-  # Enable the X11 windowing system.
-  # services.xserver.enable = true;
-
-  # Color Scheme for the system
-  stylix = {
-
-    base16Scheme = "${pkgs.base16-schemes}/share/themes/gruvbox-dark-hard.yaml";
-
-    enable = false;
-    #polarity = "dark";
-
-    # cursor = {
-    #   packages = pkgs.banana-cursor;
-    #   name = "Banana";
-    # };
-
-    fonts = {
-      monospace = {
-        package = pkgs.dejavu_fonts;
-        name = "DajaVu Mono";
-      };
-      sansSerif = {
-        package = pkgs.dejavu_fonts;
-        name = "DejaVu Sans";
-      };
-      serif = {
-        package = pkgs.dejavu_fonts;
-        name = "DejaVu Serif";
-      };
-    };
-  };
-
-  # Configure keymap in X11
-  services.xserver.xkb = {
-    layout = "de";
-    variant = "";
-  };
-  # services.xserver.xkb.options = "eurosign:e,caps:escape";
-
-  # Enable CUPS to print documents.
-  services.printing.enable = true;
-
-  # Enable sound.
-
-  # services.pulseaudio = {
-  #     enable = true;
-  # };
-
-  # OR
-  services.pipewire = {
-    enable = true;
-    alsa.enable = true;
-    alsa.support32Bit = true;
-    pulse.enable = true;
-  };
-
-  #Enable bluetooth
-
-  hardware.bluetooth = {
-    enable = true;
-    powerOnBoot = lib.mkForce false;
-    settings = {
-      General = {
-        Experimental = true; # Shows batter charge of connected deivces if supported
-      };
-    };
-  };
-
-  # Enable touchpad support (enabled default in most desktopManager).
-  services.libinput = {
-    enable = true;
-
-  };
-
-  # Define a user account. Don't forget to set a password with ‘passwd’.
-
-  # programs.firefox.enable = true;
-
   # List packages installed in system profile.
   # You can use https://search.nixos.org/ to find more packages (and options).
   environment.systemPackages = with pkgs; [
     # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
     fish
-    iio-sensor-proxy
     iio-hyprland
+    iio-sensor-proxy
   ];
-
-  # Some programs need SUID wrappers, can be configured further or are
-  # started in user sessions.
-  # programs.mtr.enable = true;
-  # programs.gnupg.agent = {
-  #   enable = true;
-  #   enableSSHSupport = true;
-  # };
-
-  # List services that you want to enable:
 
   # Enable the OpenSSH daemon.
   services.openssh = {
@@ -146,23 +43,6 @@
     settings.PermitRootLogin = "no";
     allowSFTP = true;
   };
-
-  programs = {
-    localsend = {
-      enable = true;
-    };
-    hyprland = {
-      enable = true;
-      xwayland.enable = true;
-    };
-    fish = {
-      enable = true;
-    };
-  };
-
-  # Added for swaylock to work
-
-  security.pam.services.hyprlock = { };
 
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];
@@ -193,5 +73,4 @@
   #
   # For more information, see `man configuration.nix` or https://nixos.org/manual/nixos/stable/options#opt-system.stateVersion .
   system.stateVersion = "25.05"; # Did you read the comment?
-
 }
