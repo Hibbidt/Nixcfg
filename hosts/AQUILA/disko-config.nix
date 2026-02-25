@@ -3,42 +3,105 @@
     disk = {
       main = {
         type = "disk";
-        device = "/dev/vda"; # CHANGE ME
+        device = "/dev/vda";
         content = {
           type = "gpt";
           partitions = {
-            boot = {
-              size = "1M";
-              type = "EF02"; # for GRUB MBR
-              priority = 1;
-            };
-            esp = {
-              size = "512M";
+            ESP = {
+              size = "1G";
               type = "EF00";
               content = {
                 type = "filesystem";
                 format = "vfat";
                 mountpoint = "/boot";
-                mountOptions = [
-                  "defaults"
-                  "umask=0077"
-                ];
+                mountOptions = [ "umask=0077" ];
               };
             };
-            root = {
+
+            luks = {
               size = "100%";
               content = {
-                type = "filesystem";
-                format = "ext4";
-                mountpoint = "/";
-                mountOptions = [
-                  "noatime"
-                  "nodiratime"
-                  "discard"
-                ];
+                type = "luks";
+                name = "cry";
+                # disable settings.keyFile if you want to use interactive password entry
+                #passwordFile = "/tmp/secret.key"; # Interactive
+                settings = {
+                  allowDiscards = true;
+                  keyFile = "/tmp/secret.key";
+                };
+                additionalKeyFiles = [ "/tmp/additionalSecret.key" ];
+                content = {
+                  type = "btrfs";
+                  extraArgs = [ "-f" ];
+                  subvolumes = {
+
+                    "@" = {
+                      mountpoint = "/";
+                      mountOptions = [
+                        "space_cache=v2"
+                        "compress=zstd"
+                        "ssd"
+                        "discard=async"
+                        "noatime"
+                      ];
+                    };
+
+                    "@home" = {
+                      mountpoint = "/home";
+                      mountOptions = [
+
+                        "space_cache=v2"
+                        "compress=zstd"
+                        "ssd"
+                        "discard=async"
+                        "noatime"
+
+                      ];
+                    };
+
+                    "@nix" = {
+                      mountpoint = "/nix";
+                      mountOptions = [
+                        "space_cache=v2"
+                        "compress=zstd"
+                        "ssd"
+                        "discard=async"
+                        "noatime"
+                      ];
+                    };
+
+                    "@log" = {
+                      mountpoint = "/var/log";
+                      mountOptions = [
+                        "space_cache=v2"
+                        "compress=zstd"
+                        "ssd"
+                        "discard=async"
+                        "noatime"
+                      ];
+                    };
+
+                    "@persist" = {
+                      mountpoint = "/persist";
+                      mountOptions = [
+                        "space_cache=v2"
+                        "compress=zstd"
+                        "ssd"
+                        "discard=async"
+                        "noatime"
+                      ];
+                    };
+
+                    "@swap" = {
+                      mountpoint = "/.swapvol";
+                      swap.swapfile.size = "4G";
+                    };
+                  };
+                };
               };
             };
           };
+
         };
       };
     };

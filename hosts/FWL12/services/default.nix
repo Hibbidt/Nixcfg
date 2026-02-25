@@ -1,6 +1,7 @@
 {
   imports = [
     ./btrfs.nix
+    ./fwupd.nix
     ./containers
     ./keyboard.nix
     ./displaymanager.nix

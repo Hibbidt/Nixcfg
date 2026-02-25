@@ -2,8 +2,8 @@
   imports = [
     ./btrfs.nix
     ./containers
-    ./keyboard.nix
     ./displaymanager.nix
+    ./keyboard.nix
     ./printing.nix
     ./sound.nix
     ./touchinput.nix

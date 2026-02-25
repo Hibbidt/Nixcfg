@@ -6,7 +6,8 @@
   lib,
   pkgs,
   ...
-}: {
+}:
+{
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
   home = {
@@ -23,17 +24,6 @@
   # release notes.
   # Please read the comment before changing.
   home.stateVersion = "24.05";
-
-  services = {
-    cliphist = {
-      enable = true;
-      allowImages = true;
-      extraOptions = [
-        "-max-items"
-        "100"
-      ];
-    };
-  };
 
   programs = {
     git = {
@@ -57,6 +47,17 @@
     # Let Home Manager install and manage itself.
     home-manager.enable = true;
     difftastic.enable = true;
+  };
+
+  services = {
+    cliphist = {
+      enable = true;
+      allowImages = true;
+      extraOptions = [
+        "-max-items"
+        "100"
+      ];
+    };
   };
 
   home.packages = with pkgs; [
