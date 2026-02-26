@@ -104,7 +104,7 @@
                         "noatime"
                         "subvol=@swap"
                       ];
-                      swap.swapfile.size = "4G";
+                      swap.swapfile.size = "10G";
                     };
                   };
                 };
