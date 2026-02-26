@@ -1,38 +1,40 @@
 {
   disko.devices = {
     disk = {
-      main = {
+      vda = {
         type = "disk";
         device = "/dev/vda";
         content = {
           type = "gpt";
           partitions = {
             ESP = {
+              label = "boot";
+              name = "ESP";
               size = "1G";
               type = "EF00";
               content = {
                 type = "filesystem";
                 format = "vfat";
                 mountpoint = "/boot";
-                mountOptions = [ "umask=0077" ];
+                mountOptions = [ "defaults" ];
               };
             };
 
             luks = {
               size = "100%";
+              label = "luks";
               content = {
                 type = "luks";
                 name = "cry";
-                # disable settings.keyFile if you want to use interactive password entry
-                #passwordFile = "/tmp/secret.key"; # Interactive
-                settings = {
-                  allowDiscards = true;
-                  keyFile = "/tmp/secret.key";
-                };
-                additionalKeyFiles = [ "/tmp/additionalSecret.key" ];
+                extraOpenArgs = [
+                  "--allow-discards"
+                  "--perf-no_read_workqueue"
+                  "--perf-no_write_workqueue"
+                ];
+
                 content = {
                   type = "btrfs";
-                  extraArgs = [ "-f" ];
+                  extraArgs = [ "-L" "nixos" "-f" ];
                   subvolumes = {
 
                     "@" = {
@@ -43,18 +45,19 @@
                         "ssd"
                         "discard=async"
                         "noatime"
+                        "subvol=@"
                       ];
                     };
 
                     "@home" = {
                       mountpoint = "/home";
                       mountOptions = [
-
                         "space_cache=v2"
                         "compress=zstd"
                         "ssd"
                         "discard=async"
                         "noatime"
+                        "subvol=@home"
 
                       ];
                     };
@@ -67,6 +70,7 @@
                         "ssd"
                         "discard=async"
                         "noatime"
+                        "subvol=@nix"
                       ];
                     };
 
@@ -78,6 +82,7 @@
                         "ssd"
                         "discard=async"
                         "noatime"
+                        "subvol=@log"
                       ];
                     };
 
@@ -89,11 +94,16 @@
                         "ssd"
                         "discard=async"
                         "noatime"
+                        "subvol=persist"
                       ];
                     };
 
                     "@swap" = {
-                      mountpoint = "/.swapvol";
+                      mountpoint = "/swap";
+                      mountOptions = [
+                        "noatime"
+                        "subvol=@swap"
+                      ];
                       swap.swapfile.size = "4G";
                     };
                   };
@@ -101,9 +111,10 @@
               };
             };
           };
-
         };
       };
     };
   };
+  fileSystems."/persist".neededForBoot = true;
+  fileSystems."/var/log".neededForBoot = true;
 }
