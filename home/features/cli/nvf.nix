@@ -434,6 +434,9 @@ in
                 servers = [ "tinymist" ];
               };
             };
+            qml = {
+              enable = true;
+            };
           };
         };
       };

@@ -94,7 +94,7 @@
                         "ssd"
                         "discard=async"
                         "noatime"
-                        "subvol=persist"
+                        "subvol=@persist"
                       ];
                     };
 

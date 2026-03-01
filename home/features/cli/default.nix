@@ -12,17 +12,16 @@
     ./nix-search-tv.nix
     ./nvf.nix
     ./starship.nix
+    ./tealdeer.nix
     ./zoxide.nix
   ];
 
   home.packages = with pkgs; [
-    btop
     coreutils
     curl
     fd
     procs
     ripgrep
-    tealdeer
     wget
   ];
 }

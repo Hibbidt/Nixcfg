@@ -3,7 +3,11 @@
   lib,
   ...
 }:
-with lib; {
+with lib;
+let
+  mango = config.features.desktop.mango.mango;
+in
+{
   imports = [
     ../common
     ./dotfiles
@@ -15,7 +19,15 @@ with lib; {
   ];
 
   config = mkMerge [
+    (mkIf mango.enable {
+      wayland.windowManager.mango = {
+        settings = ''
+          env=WLR_NO_HARDWARE_CURSORS,1
+          '';
+      };
+    })
     {
+
       features = {
         cli = {
           bat.enable = true;
@@ -29,6 +41,7 @@ with lib; {
           nix-search-tv.enable = true;
           nvf.enable = true;
           starship.enable = true;
+          tealdeer.enable = true;
           zoxide.enable = true;
         };
 
@@ -56,6 +69,7 @@ with lib; {
           };
         };
       };
+
     }
   ];
 }

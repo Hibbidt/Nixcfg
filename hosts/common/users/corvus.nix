@@ -19,6 +19,7 @@
     ];
     openssh.authorizedKeys.keys = [
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIC3o/f2DwiJAxWpabwokaNoDCrO8upYE2WblMHyY8Kq1 simon@simon-garuda-mokka"
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOY+ILD6A65+AHDVEaIdr5B0xNoRfIcgf2YVGmWLCyun corvus@FWL12"
     ];
     packages = [inputs.home-manager.packages.${pkgs.system}.default];
   };
