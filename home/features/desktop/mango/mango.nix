@@ -16,21 +16,30 @@ in {
       enable = true;
 
       autostart_sh = ''
-        '';
+        exec-once=waybar
+      '';
 
       settings = ''
         #xkb Keyboard setting
         xkb_rules_layout = de
         xkb_rules_options = lv3:caps_switch_capslock_with_ctrl
 
-        # Keybinds
+        # Program keybinds
         bind=ALT,space,spawn, rofi -show drun -file-browser-depth 0 -theme Arc-Dark -run-command
         bind=SUPER,R,spawn,ghostty
         bind=SUPER,E,spawn,dolphin
+
+        # Keybinds
         bind=SUPER,Q,killclient
         bind=SUPER,M,quit
 
-        bind=SUPER,F,togglefullscreen
+        bind=SUPER,space,togglefullscreen
+
+        #Function keys
+        bind=NONE,XF86MonBrightnessUp,spawn,brightnessctl s +2%
+        bind=SHIFT,XF86MonBrightnessUp,spawn,brightnessctl s 100%
+        bind=NONE,XF86MonBrightnessDown,spawn,brightnessctl s 2%-
+        bind=SHIFT,XF86MonBrightnessDown,spawn,brightnessctl s 10%
 
         #Layouts
         bind=SUPER,T,setlayout,tile
@@ -51,6 +60,17 @@ in {
         bind=SUPER+SHIFT,h,exchange_client,left
         bind=SUPER+SHIFT,l,exchange_client,right
 
+        # Move the Window to the tag and switch to it
+        bind=SUPER+SHIFT,1,tag,1
+        bind=SUPER+SHIFT,2,tag,2
+        bind=SUPER+SHIFT,3,tag,3
+        bind=SUPER+SHIFT,4,tag,4
+        bind=SUPER+SHIFT,5,tag,5
+        bind=SUPER+SHIFT,6,tag,6
+        bind=SUPER+SHIFT,7,tag,7
+        bind=SUPER+SHIFT,8,tag,8
+        bind=SUPER+SHIFT,9,tag,9
+
         # Workspaces if 1 number is pressed normal view if multiple are pressed then comboview
         bind=SUPER,1,comboview,1
         bind=SUPER,2,comboview,2
@@ -61,6 +81,9 @@ in {
         bind=SUPER,7,comboview,7
         bind=SUPER,8,comboview,8
         bind=SUPER,9,comboview,9
+
+        bind=SUPER,0,view,0 # Shows all Tags
+
 
         #switch window focus
         # stack wise
@@ -91,7 +114,12 @@ in {
         new_is_master=0
         enable_hotarea=0
         blur=0
+        enable_floating_snap=1
 
+        # Mouse Button Bindings
+        # NONE mode key only work on ov mode
+        mousebind=SUPER,btn_left,moveresize,curmove
+        mousebind=SUPER,btn_right,moveresize,curresize
 
         #Eyecandy
         animations=0

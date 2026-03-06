@@ -33,7 +33,7 @@
 # networking.hostName = "nixos"; # Define your hostname.
 {
   imports = [
-    ./battery.nix
+    #./battery.nix
     ./configuration.nix
     ./hardware.nix
     ./networking.nix

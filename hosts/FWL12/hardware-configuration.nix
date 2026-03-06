@@ -20,12 +20,12 @@
     "usb_storage"
     "sd_mod"
   ];
-  boot.initrd.postDeviceCommands = lib.mkAfter ''
-    mkdir /mnt
-    mount -t btrfs /dev/mapper/cry /mnt
-    btrfs subvolume delete /mnt/@
-    btrfs subvolume snapshot /mnt/@snapshot /mnt/@
-  '';
+  # boot.initrd.postDeviceCommands = lib.mkAfter ''
+  #   mkdir /mnt
+  #   mount -t btrfs /dev/mapper/cry /mnt
+  #   btrfs subvolume delete /mnt/@
+  #   btrfs subvolume snapshot /mnt/@snapshot /mnt/@
+  # '';
 
   boot.kernelModules = ["kvm-intel"];
   boot.extraModulePackages = [];

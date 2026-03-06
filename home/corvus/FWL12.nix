@@ -10,6 +10,7 @@ in {
     ../common
     ./dotfiles
     ../features/cli
+    ../features/coding
     ../features/desktop
     ../features/desktop/hyprland
     ../features/desktop/mango
@@ -47,6 +48,7 @@ in {
       features = {
         cli = {
           bat.enable = true;
+          btop.enable = true;
           eza.enable = true;
           fastfetch.enable = true;
           fish.enable = true;
@@ -57,7 +59,15 @@ in {
           nix-search-tv.enable = true;
           nvf.enable = true;
           starship.enable = true;
+          tealdeer.enable = true;
+          tmux.enable = true;
           zoxide.enable = true;
+        };
+
+        coding = {
+          cpp.enable = true;
+          python.enable = true;
+          qml.enable = true;
         };
 
         desktop = {
@@ -73,6 +83,7 @@ in {
           mango = {
             mango.enable = true;
             wayland.enable = true;
+            waybar.enable = true;
           };
 
           hyprland = {

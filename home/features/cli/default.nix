@@ -13,6 +13,7 @@
     ./nvf.nix
     ./starship.nix
     ./tealdeer.nix
+    ./tmux.nix
     ./zoxide.nix
   ];
 

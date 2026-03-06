@@ -3,11 +3,9 @@
   lib,
   ...
 }:
-with lib;
-let
+with lib; let
   mango = config.features.desktop.mango.mango;
-in
-{
+in {
   imports = [
     ../common
     ./dotfiles
@@ -19,15 +17,14 @@ in
   ];
 
   config = mkMerge [
-    (mkIf mango.enable {
-      wayland.windowManager.mango = {
-        settings = ''
-          env=WLR_NO_HARDWARE_CURSORS,1
-          '';
-      };
-    })
+    # (mkIf mango.enable {
+    #   wayland.windowManager.mango = {
+    #     settings = ''
+    #       env=WLR_NO_HARDWARE_CURSORS,1
+    #     '';
+    #   };
+    # })
     {
-
       features = {
         cli = {
           bat.enable = true;
@@ -36,7 +33,7 @@ in
           fish.enable = true;
           fzf.enable = true;
           ghostty.enable = true;
-          mpv.enable = false;
+          mpv.enable = true;
           nh.enable = true;
           nix-search-tv.enable = true;
           nvf.enable = true;
@@ -47,17 +44,18 @@ in
 
         desktop = {
           anki.enable = false;
-          firefox.enable = false;
+          firefox.enable = true;
           flameshot.enable = false;
           fonts.enable = true;
           joplin.enable = false;
-          keepassxc.enable = false;
-          office.enable = false;
+          keepassxc.enable = true;
+          office.enable = true;
           rofi.enable = true;
 
           mango = {
             mango.enable = true;
             wayland.enable = true;
+            waybar.enable = true;
           };
 
           hyprland = {
@@ -69,7 +67,6 @@ in
           };
         };
       };
-
     }
   ];
 }

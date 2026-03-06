@@ -12,6 +12,7 @@ in {
   config = mkIf cfg.enable {
     home.packages = with pkgs; [
       qt6.qtwayland
+      quickshell
       blueberry
       networkmanagerapplet
       wireplumber

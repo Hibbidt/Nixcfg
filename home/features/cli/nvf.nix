@@ -5,12 +5,10 @@
   inputs,
   ...
 }:
-with lib;
-let
+with lib; let
   cfg = config.features.cli.nvf;
-in
-{
-  imports = [ inputs.nvf.homeManagerModules.default ];
+in {
+  imports = [inputs.nvf.homeManagerModules.default];
 
   options.features.cli.nvf.enable = mkEnableOption "enable nvf";
 
@@ -341,7 +339,7 @@ in
             #   '';
             # }
             {
-              event = [ "TextYankPost" ];
+              event = ["TextYankPost"];
               desc = "Highlight yanked text";
               callback = lib.generators.mkLuaInline ''
                 function()
@@ -350,7 +348,7 @@ in
               '';
             }
             {
-              event = [ "BufReadPost" ];
+              event = ["BufReadPost"];
               desc = "Return to last edit position when opening files";
               callback = lib.generators.mkLuaInline ''
                 function()
@@ -363,7 +361,7 @@ in
               '';
             }
             {
-              event = [ "VimResized" ];
+              event = ["VimResized"];
               desc = "Auto-resize splits when window is resized";
               callback = lib.generators.mkLuaInline ''
                 function()
@@ -372,7 +370,7 @@ in
               '';
             }
             {
-              event = [ "BufWritePre" ];
+              event = ["BufWritePre"];
               desc = "Create directories when saving files";
               callback = lib.generators.mkLuaInline ''
                   function()
@@ -431,11 +429,14 @@ in
             typst = {
               enable = true;
               lsp = {
-                servers = [ "tinymist" ];
+                servers = ["tinymist"];
               };
             };
             qml = {
               enable = true;
+              lsp = {
+                enable = false;
+              };
             };
           };
         };

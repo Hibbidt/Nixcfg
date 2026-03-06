@@ -4,15 +4,13 @@
   pkgs,
   ...
 }:
-with lib;
-let
+with lib; let
   cfg = config.features.cli.tealdeer;
-in
-{
+in {
   options.features.cli.tealdeer.enable = mkEnableOption "enable tealdeer";
 
   config = mkIf cfg.enable {
-    home.packages = with pkgs; [ tealdeer ];
+    home.packages = with pkgs; [tealdeer];
 
     programs.tealdeer = {
       enable = true;
@@ -21,11 +19,11 @@ in
       settings = {
         display = {
           compact = false;
-          use_pager = true;
+          use_pager = false;
         };
         updates = {
           auto_update = true;
-          auto_update_interval_hours = 720;
+          auto_update_interval_hours = 168;
         };
       };
     };

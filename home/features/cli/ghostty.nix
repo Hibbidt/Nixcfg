@@ -22,7 +22,9 @@ in {
         font-size = 16;
         gtk-single-instance = false;
 
-        keybind = [];
+        keybind = [
+          "backquote=text:^"
+        ];
       };
     };
   };

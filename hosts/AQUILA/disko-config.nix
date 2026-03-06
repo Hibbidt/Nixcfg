@@ -16,7 +16,11 @@
                 type = "filesystem";
                 format = "vfat";
                 mountpoint = "/boot";
-                mountOptions = [ "defaults" ];
+                mountOptions = [
+                  "defaults"
+                  "fmask=0077"
+                  "dmask=0077"
+                ];
               };
             };
 
@@ -34,14 +38,17 @@
 
                 content = {
                   type = "btrfs";
-                  extraArgs = [ "-L" "nixos" "-f" ];
+                  extraArgs = [
+                    "-L"
+                    "nixos"
+                    "-f"
+                  ];
                   subvolumes = {
-
                     "@" = {
                       mountpoint = "/";
                       mountOptions = [
                         "space_cache=v2"
-                        "compress=zstd"
+                        "compress-force=zstd"
                         "ssd"
                         "discard=async"
                         "noatime"
@@ -53,12 +60,11 @@
                       mountpoint = "/home";
                       mountOptions = [
                         "space_cache=v2"
-                        "compress=zstd"
+                        "compress-force=zstd"
                         "ssd"
                         "discard=async"
                         "noatime"
                         "subvol=@home"
-
                       ];
                     };
 
@@ -66,7 +72,7 @@
                       mountpoint = "/nix";
                       mountOptions = [
                         "space_cache=v2"
-                        "compress=zstd"
+                        "compress-force=zstd"
                         "ssd"
                         "discard=async"
                         "noatime"
@@ -78,7 +84,7 @@
                       mountpoint = "/var/log";
                       mountOptions = [
                         "space_cache=v2"
-                        "compress=zstd"
+                        "compress-force=zstd"
                         "ssd"
                         "discard=async"
                         "noatime"
@@ -90,7 +96,7 @@
                       mountpoint = "/persist";
                       mountOptions = [
                         "space_cache=v2"
-                        "compress=zstd"
+                        "compress-force=zstd"
                         "ssd"
                         "discard=async"
                         "noatime"

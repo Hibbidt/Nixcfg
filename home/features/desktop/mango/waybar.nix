@@ -5,9 +5,9 @@
   ...
 }:
 with lib; let
-  cfg = config.features.desktop.hyprland.waybar;
+  cfg = config.features.desktop.mango.waybar;
 in {
-  options.features.desktop.hyprland.waybar.enable = mkEnableOption "Waybar options";
+  options.features.desktop.mango.waybar.enable = mkEnableOption "Waybar options";
 
   config = mkIf cfg.enable {
     programs.waybar = {
@@ -64,14 +64,12 @@ in {
         #disk,
         #memory,
         #clock,
-        #battery,
         #temperature,
         #network,
         #tray,
         #temperature,
         #hyprland-workspaces,
         #idle_inhibitor,
-        #custom-lock_screen,
         #custom-power_btn,
         #custom-power_rofi,
         #pulseaudio,
@@ -113,14 +111,11 @@ in {
 
           modules-left = [
             "custom/power_btn"
-            "custom/lock_screen"
-            "hyprland/workspaces"
+            "ext/workspaces"
           ];
 
           modules-center = [
-            "idle_inhibitor"
             "clock"
-            "custom/launch_rofi"
           ];
 
           modules-right = [
@@ -133,24 +128,7 @@ in {
             "memory"
             "temperature"
             "network"
-            "battery"
           ];
-
-          "custom/launch_rofi" = {
-            format = " ";
-            max-length = 10;
-            on-click = "sh -c '(sleep 0.25s; pkill rofi || rofi -show combi -modes combi -combi-modes \"window,drun\" -show-icons -theme fullscreen-preview)' & disown";
-            tooltip = false;
-          };
-
-          idle_inhibitor = {
-            format = "{icon}";
-            format-icons = {
-              activated = "󰛐";
-              deactivated = "󰛑";
-            };
-            tooltip = true;
-          };
 
           "custom/power_btn" = {
             format = "";
@@ -158,17 +136,11 @@ in {
             tooltip = false;
           };
 
-          "custom/lock_screen" = {
-            format = "";
-            on-click = "sh -c '(sleep 0.25s; hyprlock)' & disown";
-            tooltip = false;
-          };
-
-          "hyprland/workspaces" = {
+          "ext/workspaces" = {
             format = "{name} {icon}";
             on-click = "activate";
-            on-scroll-up = "hyprctl dispatch workspace e+1";
-            on-scroll-down = "hyprctl dispatch workspace e-1";
+            on-click-right = "deactivate";
+            sort-by-id = true;
             format-icons = {
               "1" = "";
               "2" = "";
@@ -178,9 +150,6 @@ in {
               "6" = "";
               "7" = "";
               "8" = "";
-            };
-            persistent_workspaces = {
-              "*" = 4;
             };
           };
 
@@ -256,47 +225,6 @@ in {
             on-click = "ghostty --fullscreen --title=btop -e btop";
           };
 
-          battery = {
-            format = "{capacity}% {icon}";
-            format-discharging = "{icon}";
-            format-charging = "{icon}";
-            format-plugged = "";
-            format-icons = {
-              charging = [
-                "󰢜"
-                "󰂆"
-                "󰂇"
-                "󰂈"
-                "󰢝"
-                "󰂉"
-                "󰢞"
-                "󰂊"
-                "󰂋"
-                "󰂅"
-              ];
-              default = [
-                "󰁺"
-                "󰁻"
-                "󰁼"
-                "󰁽"
-                "󰁾"
-                "󰁿"
-                "󰂀"
-                "󰂁"
-                "󰂂"
-                "󰁹"
-              ];
-            };
-            format-full = "󰂅";
-            tooltip-format-discharging = "{power:>1.0f}W↓ {capacity}% {cycles} ({health}%)\n {timeTo}";
-            tooltip-format-charging = "{power:>1.0f}W↑ {capacity}% {cycles} ({health}%)\n {timeTo}";
-            interval = 10;
-            states = {
-              warning = 20;
-              critical = 10;
-            };
-          };
-
           temperature = {
             format = "{icon}";
             format-icons = [
@@ -318,7 +246,6 @@ in {
             max-volume = 100;
             # exec = " wpctl get-volume @DEFAULT_AUDIO_SINK@ | awk '{if ($3=="MUTED")print "Muted"; else print int($2 * 100) "%"}' "; nedded if module is cutom
             on-click = "wpctl set-mute @DEFAULT_SINK@ toggle";
-            on-click-right = "pwvucontrol";
             on-scroll-up = "wpctl set-volume @DEFAULT_AUDIO_SINK@ 2%+";
             on-scroll-down = "wpctl set-volume @DEFAULT_AUDIO_SINK@ 2%-";
             format-icons = {
@@ -345,6 +272,7 @@ in {
             format-source-muted = "";
             #exec = "wpctl get-volume @DEFAULT_AUDIO_SOURCE@ | awk '{if ($3=="MUTED") print ""; else print "" int($2 * 100) "%"}' "; not needed only for custom module
             on-click = "wpctl set-mute @DEFAULT_SOURCE@ toggle";
+            on-click-right = "pwvucontrol";
             on-scroll-up = "wpctl set-volume @DEFAULT_AUDIO_SOURCE@ 2%+";
             on-scroll-down = "wpctl set-volume @DEFAULT_AUDIO_SOURCE@ 2%-";
             tooltip = true;

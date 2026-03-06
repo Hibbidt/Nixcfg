@@ -8,26 +8,20 @@
   powerManagement = {
     enable = true;
   };
-  #Setting Hibernation settings and Power Button settings
-  #services.power-profiles-daemon.enable = true;
-  # Suspend first then hibernate when closing the lid
+
   services.logind.settings.Login = {
-    HandleLidSwitch = "suspend"; # -then-hibernate";
-    # Hibernate on power button pressed
-    HandlePowerKey = "suspend"; # hibernate";
-    HandlepowerKeyLongPress = "poweroff";
+    #Setting Hibernation settings and Power Button settings
+    # Suspend first then hibernate when closing the lid
+    HandleLidSwitch = "suspend-then-hibernate";
+    HandlePowerKey = "suspend";
+    HandlePowerKeyLongPress = "poweroff";
   };
 
+  # Define time delay for hibernation
   systemd.sleep.extraConfig = ''
-    AllowSuspend=yes
-    AllowHibernation=yes
-    AllowSuspendThenHibernate=yes
-    AllowHybridSleep=yes
+    HibernateDelaySec=30m
     SuspendState=mem
   '';
-  # [Sleep]
-  # HibernateMode=shutdown
-  # HibernateDelay=30m
 
   services = {
     thermald = {

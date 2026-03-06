@@ -44,6 +44,25 @@
     allowSFTP = true;
   };
 
+  # Should add Hibernate
+  powerManagement = {
+    enable = true;
+  };
+
+  # Define time delay for hibernation
+  systemd.sleep.extraConfig = ''
+    HibernateDelaySec=30m
+    SuspendState=mem
+  '';
+
+  services.logind.settings.Login = {
+    #Setting Hibernation settings and Power Button settings
+    # Suspend first then hibernate when closing the lid
+    HandleLidSwitch = "suspend-then-hibernate";
+    HandlePowerKey = "suspend";
+    HandlePowerKeyLongPress = "poweroff";
+  };
+
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];
   # networking.firewall.allowedUDPPorts = [ ... ];

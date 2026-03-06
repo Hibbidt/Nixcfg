@@ -16,10 +16,9 @@ in {
       enable = true;
       enableFishIntegration = true;
       defaultOptions = [
-        "--footer 'Press CTRL-Y to copy command into clipboard'"
         "--preview='bat --color=always -n {}'"
         "--preview-window=right:50%:border-rounded"
-        "--bind 'ctrl-/:change-preview-window(right|down|)'"
+        "--bind 'ctrl-/:change-preview-window(right|down|hidden|)'"
         "--bind 'ctrl-y:execute-silent(echo -n {2..} | wl-copy)+abort'"
       ];
       defaultCommand = "fd --type f --exclude .git --follow --hidden";

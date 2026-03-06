@@ -15,22 +15,24 @@ in {
     programs.btop = {
       enable = true;
       settings = {
-        theme_background = true;
-        show_boxes = "proc cpu mem net";
-        update_ms = 5000;
-        proc_sorting = "cpu lazy";
+        base_10_sizes = false;
+        check_temp = true;
+        cpu_sensors = "Auto";
+        net_auto = true;
         proc_color = true;
         proc_mem_bytes = true;
-        truecolor = true;
-        show_cpu_watts = true;
-        check_temp = true;
-        show_update = true;
-        base_10_sizes = false;
-        show_cpu_freq = true;
-        temp_scale = "celsius";
+        proc_sorting = "cpu lazy";
+        selected_battery = "Auto";
         show_battery = true;
-        selected_battery = "BAT1";
-        net_auto = true;
+        show_battery_watts = true;
+        show_boxes = "proc cpu mem net";
+        show_cpu_freq = true;
+        show_cpu_watts = true;
+        show_update = true;
+        temp_scale = "celsius";
+        theme_background = true;
+        truecolor = true;
+        update_ms = 5000;
       };
     };
   };

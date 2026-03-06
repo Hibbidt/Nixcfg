@@ -8,7 +8,6 @@ let
 
   users = [corvus];
   systems = [AQUILA FWL12];
-
 in {
   "secrets/NM.age".publicKeys = systems ++ users;
 }
