@@ -4,9 +4,9 @@
   ...
 }:
 with lib; let
-  cfg = config.features.desktop.hyprland.wlogout;
+  cfg = config.features.desktop.WM.wlogout;
 in {
-  options.features.desktop.hyprland.wlogout.enable = mkEnableOption "wlogout config";
+  options.features.desktop.WM.wlogout.enable = mkEnableOption "wlogout config";
 
   config = mkIf cfg.enable {
     programs.wlogout = {
@@ -14,19 +14,9 @@ in {
 
       layout = [
         {
-          label = "lock";
-          action = "hyprlock";
-          text = "Lock";
-        }
-        {
           label = "hibernate";
           action = "systemctl hibernate";
           text = "Hibernate";
-        }
-        {
-          label = "logout";
-          action = "hyprctl dispatch exit 0";
-          text = "Logout";
         }
         {
           label = "shutdown";

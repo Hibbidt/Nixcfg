@@ -5,9 +5,9 @@
   ...
 }:
 with lib; let
-  cfg = config.features.desktop.mango.quickshell;
+  cfg = config.features.desktop.WM.quickshell;
 in {
-  options.features.desktop.mango.quickshell.enable = mkEnableOption "quickshell options";
+  options.features.desktop.WM.quickshell.enable = mkEnableOption "quickshell options";
 
   config = mkIf cfg.enable {
     programs.quickshell = {

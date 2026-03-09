@@ -2,22 +2,70 @@
   config,
   lib,
   inputs,
+  pkgs,
   ...
 }:
-with lib; let
-  cfg = config.features.desktop.mango.mango;
-in {
-  imports = [inputs.mango.hmModules.mango];
+with lib;
+let
+  cfg = config.features.desktop.WM.mango;
+in
+{
+  imports = [ inputs.mango.hmModules.mango ];
 
-  options.features.desktop.mango.mango.enable = mkEnableOption "mango config";
+  options.features.desktop.WM.mango.enable = mkEnableOption "mango config";
 
   config = mkIf cfg.enable {
+
+    home.packages = with pkgs; [
+      qt6.qtwayland
+      quickshell
+      blueberry
+      networkmanagerapplet
+      wireplumber
+      pwvucontrol
+      brightnessctl
+      wf-recorder
+      wl-mirror
+      wl-clipboard
+      wtype
+      ydotool
+    ];
+
+    programs.waybar = {
+      settings = {
+        mainBar = {
+
+          modules-left = [
+            "custom/power_btn"
+            "custom/lock_screen"
+            "ext/workspaces"
+          ];
+          modules-center = [
+            "idle_inhibitor"
+            "clock"
+            "custom/launch_rofi"
+          ];
+          modules-right = [
+            "tray"
+            "pulseaudio"
+            "pulseaudio#microphone"
+            "backlight"
+            "bluetooth"
+            "cpu"
+            "memory"
+            "temperature"
+            "network"
+            "battery"
+          ];
+
+        };
+      };
+    };
+
     wayland.windowManager.mango = {
       enable = true;
 
-      autostart_sh = ''
-        exec-once=waybar
-      '';
+      autostart_sh = "";
 
       settings = ''
         #xkb Keyboard setting
@@ -31,7 +79,7 @@ in {
 
         # Keybinds
         bind=SUPER,Q,killclient
-        bind=SUPER,M,quit
+        bind=SUPER+SHIFT,M,quit
 
         bind=SUPER,space,togglefullscreen
 

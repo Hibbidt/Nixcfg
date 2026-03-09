@@ -14,7 +14,6 @@ in {
 
     programs.nh = {
       enable = true;
-      flake = "/home/${config.home.username}/Nixcfg/";
       clean = {
         enable = true;
         dates = "weekly";

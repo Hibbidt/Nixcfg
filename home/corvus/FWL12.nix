@@ -3,22 +3,24 @@
   lib,
   ...
 }:
-with lib; let
-  hypr = config.features.desktop.hyprland.hyprland;
-in {
+with lib;
+let
+  mango = config.features.desktop.WM.mango;
+  hyprland = config.features.desktop.WM.hyprland;
+in
+{
   imports = [
     ../common
     ./dotfiles
     ../features/cli
     ../features/coding
     ../features/desktop
-    ../features/desktop/hyprland
-    ../features/desktop/mango
+    ../features/desktop/WM
     ./home.nix
   ];
 
   config = mkMerge [
-    (mkIf hypr.enable {
+    (mkIf hyprland.enable {
       wayland.windowManager.hyprland = {
         settings = {
           monitor = [
@@ -42,8 +44,47 @@ in {
           };
         };
       };
+      programs.waybar = {
+        settings = {
+          mainBar = {
+
+            modules-left = [
+              "custom/power_btn"
+              "custom/lock_screen"
+              "hyprland/workspaces"
+            ];
+            modules-center = [
+              "idle_inhibitor"
+              "clock"
+              "custom/launch_rofi"
+            ];
+            modules-right = [
+              "tray"
+              "pulseaudio"
+              "pulseaudio#microphone"
+              "backlight"
+              "bluetooth"
+              "cpu"
+              "memory"
+              "temperature"
+              "network"
+              "battery"
+            ];
+
+          };
+
+        };
+      };
     })
 
+    (mkIf mango.enable {
+      wayland.windowManager.mango = {
+        autostart_sh = ''
+          waybar -c ~/.config/waybar/config -s ~/.config/waybar/style.css &
+        '';
+
+      };
+    })
     {
       features = {
         cli = {
@@ -57,6 +98,7 @@ in {
           mpv.enable = true;
           nh.enable = true;
           nix-search-tv.enable = true;
+          nix-output-monitor.enable = false;
           nvf.enable = true;
           starship.enable = true;
           tealdeer.enable = true;
@@ -67,6 +109,7 @@ in {
         coding = {
           cpp.enable = true;
           python.enable = true;
+          typst.enable = true;
           qml.enable = true;
         };
 
@@ -80,17 +123,11 @@ in {
           office.enable = true;
           rofi.enable = true;
 
-          mango = {
+          WM = {
             mango.enable = true;
-            wayland.enable = true;
-            waybar.enable = true;
-          };
-
-          hyprland = {
+            waybar.enable = false;
             hyprland.enable = true;
             hyprlock.enable = true;
-            waybar.enable = true;
-            wayland.enable = true;
             wlogout.enable = true;
           };
         };

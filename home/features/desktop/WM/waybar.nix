@@ -4,10 +4,12 @@
   pkgs,
   ...
 }:
-with lib; let
-  cfg = config.features.desktop.mango.waybar;
-in {
-  options.features.desktop.mango.waybar.enable = mkEnableOption "Waybar options";
+with lib;
+let
+  cfg = config.features.desktop.WM.waybar;
+in
+{
+  options.features.desktop.WM.waybar.enable = mkEnableOption "Waybar options";
 
   config = mkIf cfg.enable {
     programs.waybar = {
@@ -26,7 +28,8 @@ in {
               window#waybar {
         background: rgba(21, 18, 27, 0);
         color: #f6f7fc;
-              }
+        }
+
 
               tooltip {
         background: #1e1e2e;
@@ -64,14 +67,16 @@ in {
         #disk,
         #memory,
         #clock,
-        #temperature,
+        #battery,
         #network,
         #tray,
         #temperature,
         #hyprland-workspaces,
+        #ext-workspaces,
         #idle_inhibitor,
+        #custom-lock_screen,
         #custom-power_btn,
-        #custom-power_rofi,
+        #custom-launch_rofi,
         #pulseaudio,
 
         #backlight {
@@ -110,24 +115,12 @@ in {
           height = 22;
 
           modules-left = [
-            "custom/power_btn"
-            "ext/workspaces"
           ];
 
           modules-center = [
-            "clock"
           ];
 
           modules-right = [
-            "tray"
-            "pulseaudio"
-            "pulseaudio#microphone"
-            "backlight"
-            "bluetooth"
-            "cpu"
-            "memory"
-            "temperature"
-            "network"
           ];
 
           "custom/power_btn" = {
@@ -216,6 +209,88 @@ in {
             };
           };
 
+          "custom/launch_rofi" = {
+            format = " ";
+            max-length = 10;
+            on-click = "sh -c '(sleep 0.25s; pkill rofi || rofi -show combi -modes combi -combi-modes \"window,drun\" -show-icons -theme fullscreen-preview)' & disown";
+            tooltip = false;
+          };
+
+          idle_inhibitor = {
+            format = "{icon}";
+            format-icons = {
+              activated = "󰛐";
+              deactivated = "󰛑";
+            };
+            tooltip = true;
+          };
+
+          "custom/lock_screen" = {
+            format = "";
+            on-click = "sh -c '(sleep 0.25s; hyprlock)' & disown";
+            tooltip = false;
+          };
+
+          "hyprland/workspaces" = {
+            format = "{name} {icon}";
+            on-click = "activate";
+            on-scroll-up = "hyprctl dispatch workspace e+1";
+            on-scroll-down = "hyprctl dispatch workspace e-1";
+            format-icons = {
+              "1" = "";
+              "2" = "";
+              "3" = "";
+              "4" = "";
+              "5" = "";
+              "6" = "";
+              "7" = "";
+              "8" = "";
+            };
+            persistent_workspaces = {
+              "*" = 4;
+            };
+          };
+
+          battery = {
+            format = "{capacity}% {icon}";
+            format-discharging = "{icon}";
+            format-charging = "{icon}";
+            format-plugged = "";
+            format-icons = {
+              charging = [
+                "󰢜"
+                "󰂆"
+                "󰂇"
+                "󰂈"
+                "󰢝"
+                "󰂉"
+                "󰢞"
+                "󰂊"
+                "󰂋"
+                "󰂅"
+              ];
+              default = [
+                "󰁺"
+                "󰁻"
+                "󰁼"
+                "󰁽"
+                "󰁾"
+                "󰁿"
+                "󰂀"
+                "󰂁"
+                "󰂂"
+                "󰁹"
+              ];
+            };
+            format-full = "󰂅";
+            tooltip-format-discharging = "{power:>1.0f}W↓ {capacity}% {cycles} ({health}%)\n {timeTo}";
+            tooltip-format-charging = "{power:>1.0f}W↑ {capacity}% {cycles} ({health}%)\n {timeTo}";
+            interval = 10;
+            states = {
+              warning = 20;
+              critical = 10;
+            };
+          };
           cpu = {
             interval = 10;
             format = "";
@@ -246,6 +321,7 @@ in {
             max-volume = 100;
             # exec = " wpctl get-volume @DEFAULT_AUDIO_SINK@ | awk '{if ($3=="MUTED")print "Muted"; else print int($2 * 100) "%"}' "; nedded if module is cutom
             on-click = "wpctl set-mute @DEFAULT_SINK@ toggle";
+            on-click-right = "pwvucontrol";
             on-scroll-up = "wpctl set-volume @DEFAULT_AUDIO_SINK@ 2%+";
             on-scroll-down = "wpctl set-volume @DEFAULT_AUDIO_SINK@ 2%-";
             format-icons = {
@@ -276,7 +352,7 @@ in {
             on-scroll-up = "wpctl set-volume @DEFAULT_AUDIO_SOURCE@ 2%+";
             on-scroll-down = "wpctl set-volume @DEFAULT_AUDIO_SOURCE@ 2%-";
             tooltip = true;
-            tooltip-format = " at {volume}%";
+            # tooltip-format = " at {volume}%";
           };
 
           backlight = {

@@ -2,10 +2,13 @@
   imports = [
     ./hyprland.nix
     ./hyprlock.nix
+    ./mango.nix
+    ./quickshell.nix
     ./waybar.nix
-    ./wayland.nix
     ./wlogout.nix
   ];
 
-  home.packages = with pkgs; [];
+  home.packages = with pkgs; [
+  ];
 }
+

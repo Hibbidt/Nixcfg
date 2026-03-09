@@ -18,10 +18,13 @@
   };
 
   # Define time delay for hibernation
-  systemd.sleep.extraConfig = ''
-    HibernateDelaySec=30m
-    SuspendState=mem
-  '';
+  systemd.sleep.settings.Sleep = {
+    AllowSuspend = "yes";
+    AllowHibernation = "yes";
+
+    HibernateDelaySec="30m";
+    SuspendState="mem";
+  };
 
   services = {
     thermald = {

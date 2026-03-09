@@ -4,15 +4,14 @@
   ...
 }:
 with lib; let
-  mango = config.features.desktop.mango.mango;
+  mango = config.features.desktop.WM.mango;
 in {
   imports = [
     ../common
     ./dotfiles
     ../features/cli
     ../features/desktop
-    ../features/desktop/hyprland
-    ../features/desktop/mango
+    ../features/desktop/WM
     ./home.nix
   ];
 

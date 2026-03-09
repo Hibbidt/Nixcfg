@@ -10,6 +10,7 @@
     ./mpv.nix
     ./nh.nix
     ./nix-search-tv.nix
+    ./nix-output-monitor.nix
     ./nvf.nix
     ./starship.nix
     ./tealdeer.nix

@@ -4,9 +4,9 @@
   ...
 }:
 with lib; let
-  cfg = config.features.desktop.hyprland.hyprlock;
+  cfg = config.features.desktop.WM.hyprlock;
 in {
-  options.features.desktop.hyprland.hyprlock.enable = mkEnableOption "hyprlock config";
+  options.features.desktop.WM.hyprlock.enable = mkEnableOption "hyprlock config";
 
   config = mkIf cfg.enable {
     programs.hyprlock = {
