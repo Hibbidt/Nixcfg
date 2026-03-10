@@ -433,7 +433,7 @@ in {
               };
             };
             qml = {
-              enable = true;
+              enable = false;
               lsp = {
                 enable = false;
               };
