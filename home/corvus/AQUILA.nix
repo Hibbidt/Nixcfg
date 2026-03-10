@@ -3,13 +3,16 @@
   lib,
   ...
 }:
-with lib; let
+with lib;
+let
   mango = config.features.desktop.WM.mango;
-in {
+in
+{
   imports = [
     ../common
     ./dotfiles
     ../features/cli
+    ../features/coding
     ../features/desktop
     ../features/desktop/WM
     ./home.nix
@@ -27,6 +30,7 @@ in {
       features = {
         cli = {
           bat.enable = true;
+          btop.enable = true;
           eza.enable = true;
           fastfetch.enable = true;
           fish.enable = true;
@@ -35,34 +39,37 @@ in {
           mpv.enable = true;
           nh.enable = true;
           nix-search-tv.enable = true;
+          nix-output-monitor.enable = false;
           nvf.enable = true;
           starship.enable = true;
           tealdeer.enable = true;
+          tmux.enable = true;
           zoxide.enable = true;
         };
 
+        coding = {
+          cpp.enable = true;
+          python.enable = true;
+          typst.enable = true;
+          qml.enable = true;
+        };
+
         desktop = {
-          anki.enable = false;
+          anki.enable = true;
           firefox.enable = true;
-          flameshot.enable = false;
+          flameshot.enable = true;
           fonts.enable = true;
-          joplin.enable = false;
+          joplin.enable = true;
           keepassxc.enable = true;
           office.enable = true;
           rofi.enable = true;
 
-          mango = {
+          WM = {
             mango.enable = true;
-            wayland.enable = true;
-            waybar.enable = true;
-          };
-
-          hyprland = {
-            hyprland.enable = false;
-            hyprlock.enable = false;
             waybar.enable = false;
-            wayland.enable = false;
-            wlogout.enable = false;
+            hyprland.enable = true;
+            hyprlock.enable = true;
+            wlogout.enable = true;
           };
         };
       };
